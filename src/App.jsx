@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import VenuesList from "./pages/VenuesList.jsx";
 import Login from "./pages/Login.jsx";
+import Venue from "./pages/Venue.jsx";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Routes>
           <Route path="/" element={<VenuesList />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/venues/:id" element={<Venue />} />
         </Routes>
       </main>
     </div>

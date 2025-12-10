@@ -46,7 +46,7 @@ function VenuesList() {
         </label>
         <input
           type="text"
-          placeholder="Type a venue name"
+          placeholder="Search for a venue here"
           className="w-full max-w-md rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
           value={searchTerm}
           onChange={(event) => setSearchTerm(event.target.value)}
@@ -76,9 +76,10 @@ function VenuesList() {
             }
 
             return (
-              <div
+              <a
                 key={venue.id}
-                className="bg-white rounded-lg shadow-sm overflow-hidden flex flex-col"
+                href={`/venues/${venue.id}`}
+                className="bg-white rounded-lg shadow-sm overflow-hidden flex flex-col hover:shadow-md transition-shadow"
               >
                 <div className="h-40 w-full overflow-hidden">
                   <img
@@ -92,7 +93,7 @@ function VenuesList() {
                     {venue.name}
                   </h2>
                 </div>
-              </div>
+              </a>
             );
           })}
         </div>
