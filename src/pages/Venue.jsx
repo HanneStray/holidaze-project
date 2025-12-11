@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import VenueCalendar from "../components/VenueCalendar.jsx";
 
 function Venue() {
   const { id } = useParams();
@@ -10,7 +11,7 @@ function Venue() {
   useEffect(() => {
     if (!id) return;
 
-    fetch(`https://v2.api.noroff.dev/holidaze/venues/${id}`)
+    fetch(`https://v2.api.noroff.dev/holidaze/venues/${id}?_bookings=true`)
       .then((res) => {
         if (!res.ok) {
           throw new Error("Failed to load venue");
@@ -18,7 +19,7 @@ function Venue() {
         return res.json();
       })
       .then((data) => {
-        console.log("Fetched single venue", data);
+        console.log("Single venue with bookings", data);
         setVenue(data.data);
       })
       .catch((err) => {
@@ -81,17 +82,25 @@ function Venue() {
           )}
 
           {venue.description && (
-            <p className="text-sm text-slate-700 mt-2"> {venue.description} </p>
+            <p className="text-sm text-slate-700 mt-2">{venue.description}</p>
           )}
 
           {typeof venue.price === "number" && (
             <p className="font-semibold mt-3">
-              {" "}
-              Price per night:{" "}
-              <span className="text-sky-700">{venue.price}</span>
+              Price per night:
+              <span className="text-sky-700">{venue.price}</span> NOK
             </p>
           )}
         </div>
+      </div>
+
+      <div className="bg-white rounded-lg shadow-sm p-4">
+        <h2 className="text-lg font-semibold mb-2">Availability</h2>
+        <p className="text-xs text-slate-500 mb-2">
+          {" "}
+          Booked dates are shown in red. Other days are free to book
+        </p>
+        <VenueCalendar bookings={venue.bookings || []} />
       </div>
     </div>
   );
