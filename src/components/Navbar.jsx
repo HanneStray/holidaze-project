@@ -1,27 +1,51 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
-  const [user, setUser] = useState(() => {
+  const navigate = useNavigate();
+
+  function loadUser() {
     try {
       const storedUser = localStorage.getItem("holidazeUser");
       if (!storedUser) return null;
       return JSON.parse(storedUser);
     } catch (error) {
-      console.error("Error getting user from localStorage:", error);
+      console.error("Error reading user from localStorage:", error);
       return null;
     }
-  });
+  }
+
+  const [user, setUser] = useState(() => loadUser());
+
+  useEffect(() => {
+    function updateUserFromStorage() {
+      setUser(loadUser());
+    }
+
+    function handleStorage(event) {
+      if (event.key === "holidazeUser") {
+        updateUserFromStorage();
+      }
+    }
+
+    window.addEventListener("authChanged", updateUserFromStorage);
+    window.addEventListener("storage", handleStorage);
+
+    return () => {
+      window.removeEventListener("authChanged", updateUserFromStorage);
+      window.removeEventListener("storage", handleStorage);
+    };
+  }, []);
 
   function handleLogout() {
     try {
       localStorage.removeItem("holidazeUser");
     } catch (error) {
-      console.error("Error removing user from localstorage:", error);
+      console.error("Error removing user", error);
     }
 
-    setUser(null); //update state
-
-    window.location.href = "/";
+    window.dispatchEvent(new Event("authChanged"));
+    navigate("/");
   }
 
   return (

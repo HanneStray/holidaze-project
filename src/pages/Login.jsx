@@ -1,16 +1,17 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+
+  const navigate = useNavigate();
 
   async function handleSubmit(event) {
     event.preventDefault();
     setErrorMessage("");
-    setSuccessMessage("");
 
     if (!email || !password) {
       setErrorMessage("Please fill in both email and password");
@@ -34,17 +35,12 @@ function Login() {
       }
 
       const data = await response.json();
-      console.log("Login response:", data);
-
       const userData = data.data;
 
-      try {
-        localStorage.setItem("holidazeUser", JSON.stringify(userData));
-      } catch (storageError) {
-        console.error("Could not save user til localStorage", storageError);
-      }
+      localStorage.setItem("holidazeUser", JSON.stringify(userData));
+      window.dispatchEvent(new Event("authChanged"));
 
-      setSuccessMessage("You are now logged in");
+      navigate("/");
     } catch (error) {
       console.error("error logged in:", error);
       setErrorMessage(error.message || "Something went wrong during login");
@@ -80,7 +76,7 @@ function Login() {
           </label>
           <input
             type="password"
-            className="w-full rounded border border-slate-300 px-3 py-3 text-sm focus:outline:none focus:ring-2 focus:ring-sky-500"
+            className="w-full rounded border border-slate-300 px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
             placeholder="Your password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
@@ -89,14 +85,10 @@ function Login() {
 
         {errorMessage && <p className="text-sm text-red-600">{errorMessage}</p>}
 
-        {successMessage && (
-          <p className="text-sm text-green-700"> {successMessage}</p>
-        )}
-
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full rounded bg-sky-600 text-white py-2 text-sm font-semibold hover:bg-sky-7009 disabled:opacity-60"
+          className="w-full rounded bg-sky-600 text-white py-2 text-sm font-semibold hover:bg-sky-700 disabled:opacity-60"
         >
           {isSubmitting ? "Logging in..." : "Login"}
         </button>
