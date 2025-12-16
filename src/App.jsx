@@ -3,6 +3,7 @@ import VenuesList from "./pages/VenuesList.jsx";
 import Login from "./pages/Login.jsx";
 import Venue from "./pages/Venue.jsx";
 import Navbar from "./components/Navbar.jsx";
+import Register from "./pages/Register.jsx";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<VenuesList />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/venues/:id" element={<Venue />} />
         </Routes>
       </main>

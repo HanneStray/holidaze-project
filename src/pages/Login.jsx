@@ -101,6 +101,14 @@ function Login() {
           {isSubmitting ? "Logging in..." : "Login"}
         </button>
       </form>
+
+      <p className="text-xs text-slate-600 mt-4">
+        {" "}
+        Don´t have an account yet {""}
+        <a href="/register" className="text-sky-700 hover:underline">
+          Register here
+        </a>
+      </p>
     </div>
   );
 }
