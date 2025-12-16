@@ -8,6 +8,7 @@ function Register() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [isVenueManager, setIsVenueManager] = useState(false);
 
   const navigate = useNavigate();
 
@@ -45,6 +46,7 @@ function Register() {
           name,
           email,
           password,
+          venueManager: isVenueManager,
         }),
       });
 
@@ -111,7 +113,7 @@ function Register() {
             Email
           </label>
           <input
-            type="Email"
+            type="email"
             className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
             placeholder="yourname@stud.noroff.no"
             value={email}
@@ -139,6 +141,19 @@ function Register() {
         {successMessage && (
           <p className="text-sm text-green-700"> {successMessage} </p>
         )}
+
+        <div className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            id="venueManager"
+            checked={isVenueManager}
+            onChange={(event) => setIsVenueManager(event.target.checked)}
+            className="h-4 w-4"
+          />
+          <label htmlFor="venueManager" className="text-sm text-slate-700">
+            Register as venue manager
+          </label>
+        </div>
 
         <button
           type="submit"
