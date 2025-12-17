@@ -70,3 +70,51 @@ export async function deleteVenue(venueId) {
 
   return true;
 }
+
+export async function createVenue(venueData) {
+  const response = await fetch(`${BASE_URL}/holidaze/venues`, {
+    method: "POST",
+    headers: getAuthHeaders(),
+    body: JSON.stringify(venueData),
+  });
+
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    const apiMessage = data?.errors?.[0]?.message;
+    throw new Error(apiMessage || "Could not create venue");
+  }
+
+  return data.data;
+}
+
+export async function fetchVenuesById(venueId) {
+  const response = await fetch(`${BASE_URL}/holidaze/venues/${venueId}`, {
+    headers: getAuthHeaders(),
+  });
+
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    const apiMessage = data?.errors?.[0]?.message;
+    throw new Error(apiMessage || "Could not fetch venue");
+  }
+
+  return data.data;
+}
+
+export async function updateVenue(venueId, venueData) {
+  const response = await fetch(`${BASE_URL}/holidaze/venues/${venueId}`, {
+    method: "PUT",
+    headers: getAuthHeaders(),
+    body: JSON.stringify(venueData),
+  });
+
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    const apiMessage = data?.errors?.[0]?.message;
+    throw new Error(apiMessage || "Could not update venue");
+  }
+  return data.data;
+}

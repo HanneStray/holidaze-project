@@ -6,6 +6,8 @@ import Navbar from "./components/Navbar.jsx";
 import Register from "./pages/Register.jsx";
 
 import ManageVenues from "./pages/ManageVenues.jsx";
+import CreateVenue from "./pages/CreateVenue.jsx";
+import EditVenue from "./pages/EditVenue.jsx";
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
           <Route path="/venues/:id" element={<Venue />} />
 
           <Route path="/venues/manage" element={<ManageVenues />} />
+          <Route path="/venues/create" element={<CreateVenue />} />
+          <Route path="/venues/edit/:id" element={<EditVenue />} />
         </Routes>
       </main>
     </div>

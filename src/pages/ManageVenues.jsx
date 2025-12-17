@@ -71,6 +71,14 @@ function ManageVenues() {
             key={venue.id}
             className="rounded border border-slate-200 bg-white p-4"
           >
+            {venue.media?.[0]?.url && (
+              <img
+                src={venue.media[0].url}
+                alt={venue.media[0].alt || venue.name}
+                className="mb-3 h-40 w-full rounded object-cover"
+              />
+            )}
+
             <h2 className="font-semibold text-slate-800">{venue.name}</h2>
             <p className="text-sm text-slate-600">
               Price: {venue.price} • Guests: {venue.maxGuests}
@@ -84,13 +92,13 @@ function ManageVenues() {
                 Edit
               </Link>
 
-              <Button
+              <button
                 type="button"
                 onClick={() => handleDelete(venue.id)}
                 className="rounded border border-red-300 px-3 py-1 text-xs text-red-700 hover:bg-red-50"
               >
                 Delete
-              </Button>
+              </button>
             </div>
           </li>
         ))}
