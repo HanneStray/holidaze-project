@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import VenueCalendar from "../components/VenueCalendar.jsx";
+import { fetchVenueById } from "../api/apiClient.js";
 
 function Venue() {
   const { id } = useParams();
@@ -11,24 +12,27 @@ function Venue() {
   useEffect(() => {
     if (!id) return;
 
-    fetch(`https://v2.api.noroff.dev/holidaze/venues/${id}?_bookings=true`)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Failed to load venue");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        console.log("Single venue with bookings", data);
-        setVenue(data.data);
-      })
-      .catch((err) => {
-        console.error("Error getting venue by id:", err);
-        setError("Could not load this venue right now");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    let isMounted = true;
+
+    async function load() {
+      setLoading(true);
+      setError("");
+
+      try {
+        const venueData = await fetchVenueById(id);
+        if (isMounted) setVenue(venueData);
+      } catch (err) {
+        if (isMounted)
+          setError(err.message || "Could not load this venue right now");
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    }
+    load();
+
+    return () => {
+      isMounted = false;
+    };
   }, [id]);
 
   if (loading) {
@@ -97,7 +101,6 @@ function Venue() {
       <div className="bg-white rounded-lg shadow-sm p-4">
         <h2 className="text-lg font-semibold mb-2">Availability</h2>
         <p className="text-xs text-slate-500 mb-2">
-          {" "}
           Booked dates are shown in red. Other days are free to book
         </p>
         <VenueCalendar bookings={venue.bookings || []} />

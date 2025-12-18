@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchVenuesById, updateVenue } from "../api/apiClient";
+import { fetchVenueById, updateVenue } from "../api/apiClient.js";
 
 function EditVenue() {
   const { id } = useParams();
@@ -24,7 +24,7 @@ function EditVenue() {
       setIsLoading(true);
 
       try {
-        const venue = await fetchVenuesById(id);
+        const venue = await fetchVenueById(id);
 
         setName(venue.name || "");
         setDescription(venue.description || "");

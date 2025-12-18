@@ -16,6 +16,19 @@ function getAccessToken() {
   return user?.accessToken || null;
 }
 
+function getBaseHeaders() {
+  if (!API_KEY) {
+    throw new Error(
+      "Missing API key. Add VITE_NOROFF_API_KEY to your .env. file"
+    );
+  }
+
+  return {
+    "X-Noroff-API-Key": API_KEY,
+    "Content-Type": "application/json",
+  };
+}
+
 function getAuthHeaders() {
   const token = getAccessToken();
 
@@ -23,98 +36,70 @@ function getAuthHeaders() {
     throw new Error("You must be logged in to do this action.");
   }
 
-  if (!API_KEY) {
-    throw new Error(
-      "Missing API key. Add VITE_NOROFF_API_KEY to your .env file."
-    );
-  }
-
   return {
+    ...getBaseHeaders(),
     Authorization: `Bearer ${token}`,
-    "X-Noroff-API-Key": API_KEY,
-    "Content-Type": "application/json",
   };
+}
+
+async function request(path, { method = "GET", body, auth = false } = {}) {
+  const headers = auth ? getAuthHeaders() : getBaseHeaders();
+
+  const response = await fetch(`${BASE_URL}${path}`, {
+    method,
+    headers,
+    body: body ? JSON.stringify(body) : undefined,
+  });
+
+  const data = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    const apiMessage = data?.errors?.[0]?.message;
+    throw new Error(apiMessage || "Request failed");
+  }
+  return data;
+}
+
+export async function fetchVenueById(venueId) {
+  const data = await request(`/holidaze/venues/${venueId}?_bookings=true`);
+  return data.data;
 }
 
 export async function fetchMyVenues() {
   const user = getStoredUser();
   if (!user?.name) throw new Error("Missing user name. Please log in again.");
 
-  const url = `${BASE_URL}/holidaze/profiles/${user.name}?_venues=true`;
-
-  const response = await fetch(url, {
-    headers: getAuthHeaders(),
+  const data = await request(`/holidaze/profiles/${user.name}?_venues=true`, {
+    auth: true,
   });
-
-  const data = await response.json().catch(() => null);
-
-  if (!response.ok) {
-    const apiMessage = data?.errors?.[0]?.message;
-    throw new Error(apiMessage || "Could not fetch your venues");
-  }
 
   return data?.data?.venues || [];
 }
 
 export async function deleteVenue(venueId) {
-  const response = await fetch(`${BASE_URL}/holidaze/venues/${venueId}`, {
+  await request(`/holidaze/venues/${venueId}`, {
     method: "DELETE",
-    headers: getAuthHeaders(),
+    auth: true,
   });
-
-  if (!response.ok) {
-    const data = await response.json().catch(() => null);
-    const apiMessage = data?.errors?.[0]?.message;
-    throw new Error(apiMessage || "Could not delete venue");
-  }
 
   return true;
 }
 
 export async function createVenue(venueData) {
-  const response = await fetch(`${BASE_URL}/holidaze/venues`, {
-    method: "POST",
-    headers: getAuthHeaders(),
-    body: JSON.stringify(venueData),
+  const data = await request(`/holidaze/venues`, {
+    method: "PUT",
+    auth: true,
+    body: venueData,
   });
-
-  const data = await response.json().catch(() => null);
-
-  if (!response.ok) {
-    const apiMessage = data?.errors?.[0]?.message;
-    throw new Error(apiMessage || "Could not create venue");
-  }
-
-  return data.data;
-}
-
-export async function fetchVenuesById(venueId) {
-  const response = await fetch(`${BASE_URL}/holidaze/venues/${venueId}`, {
-    headers: getAuthHeaders(),
-  });
-
-  const data = await response.json().catch(() => null);
-
-  if (!response.ok) {
-    const apiMessage = data?.errors?.[0]?.message;
-    throw new Error(apiMessage || "Could not fetch venue");
-  }
 
   return data.data;
 }
 
 export async function updateVenue(venueId, venueData) {
-  const response = await fetch(`${BASE_URL}/holidaze/venues/${venueId}`, {
+  const data = await request(`/holidaze/venues/${venueId}`, {
     method: "PUT",
-    headers: getAuthHeaders(),
-    body: JSON.stringify(venueData),
+    auth: true,
+    body: venueData,
   });
-
-  const data = await response.json().catch(() => null);
-
-  if (!response.ok) {
-    const apiMessage = data?.errors?.[0]?.message;
-    throw new Error(apiMessage || "Could not update venue");
-  }
   return data.data;
 }
