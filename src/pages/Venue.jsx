@@ -122,7 +122,7 @@ function Venue() {
         <VenueCalendar bookings={venue.bookings || []} />
       </div>
 
-      <div className="bg-white, rounded-lg shadow-sm p-4 mt-4">
+      <div className="bg-white rounded-lg shadow-sm p-4 mt-4">
         <h3 className="font-semibold mb-2"> Book this venue</h3>
 
         {bookingError && (

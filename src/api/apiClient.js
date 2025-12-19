@@ -144,3 +144,20 @@ export async function createBooking({ dateFrom, dateTo, guests, venueId }) {
 
   return data.data;
 }
+
+export async function fetchMyBookings({ signal } = {}) {
+  const user = getStoredUser();
+  if (!user?.name) {
+    throw new Error("You must be logged in to view bookings");
+  }
+
+  const data = await request(
+    `/holidaze/profiles/${user.name}/bookings?_venue=true`,
+    {
+      auth: true,
+      signal,
+    }
+  );
+
+  return data?.data || [];
+}

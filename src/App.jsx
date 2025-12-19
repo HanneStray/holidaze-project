@@ -9,6 +9,7 @@ import ManageVenues from "./pages/ManageVenues.jsx";
 import CreateVenue from "./pages/CreateVenue.jsx";
 import EditVenue from "./pages/EditVenue.jsx";
 import BookingConfirm from "./pages/BookingConfirm.jsx";
+import Bookings from "./pages/Bookings.jsx";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/venues/create" element={<CreateVenue />} />
           <Route path="/venues/edit/:id" element={<EditVenue />} />
           <Route path="/booking/confirm" element={<BookingConfirm />} />
+          <Route path="/bookings" element={<Bookings />} />
         </Routes>
       </main>
     </div>
