@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import VenueCard from "../components/VenueCard.jsx";
+import { fetchVenues } from "../api/apiClient.js";
 
 function VenuesList() {
   const [venues, setVenues] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -23,74 +25,39 @@ function VenuesList() {
     return () => clearTimeout(timeout);
   }, [searchTerm]);
 
-  async function fetchVenues({ pageNumber, term, signal }) {
-    const trimmed = term.trim();
-
-    const base = trimmed
-      ? "https://v2.api.noroff.dev/holidaze/venues/search"
-      : "https://v2.api.noroff.dev/holidaze/venues";
-
-    const params = new URLSearchParams();
-    params.set("limit", String(limit));
-    params.set("page", String(pageNumber));
-
-    if (trimmed) {
-      params.set("q", trimmed);
-    } else {
-      params.set("sort", "created");
-      params.set("sortOrder", "desc");
-    }
-
-    const url = `${base}?${params.toString()}`;
-
-    const res = await fetch(url, { signal });
-    const data = await res.json().catch(() => null);
-
-    if (!res.ok) {
-      const apiMessage = data?.errors?.[0]?.message;
-      throw new Error(apiMessage || "Could not fetch venues");
-    }
-
-    return {
-      items: data?.data || [],
-      meta: data?.meta || {},
-    };
-  }
-
   useEffect(() => {
     const controller = new AbortController();
 
     async function loadFirstPage() {
       setErrorMessage("");
+      setLoading(true);
+      setHasMore(true);
 
       try {
-        const term = debouncedSearch;
         const result = await fetchVenues({
-          pageNumber: 1,
-          term,
+          page: 1,
+          limit,
+          q: debouncedSearch,
           signal: controller.signal,
         });
 
-        const termLower = term.trim().toLowerCase();
-        const filteredItems = termLower
-          ? result.items.filter((v) =>
-              (v.name || "").toLowerCase().includes(termLower)
-            )
-          : result.items;
-
-        setVenues(filteredItems);
+        setVenues(result.items);
         setPage(1);
 
         if (typeof result.meta.isLastPage === "boolean") {
           setHasMore(!result.meta.isLastPage);
         } else {
-          setHasMore(filteredItems.length > 0);
+          setHasMore(result.items.length > 0);
         }
       } catch (error) {
         if (error.name === "AbortError") return;
+
         console.error("Error loading venues:", error);
         setErrorMessage(error.message || "Something went wrong");
+        setVenues([]);
+        setHasMore(false);
       } finally {
+        setLoading(false);
         requestAnimationFrame(() => {
           searchInputRef.current?.focus();
         });
@@ -110,30 +77,24 @@ function VenuesList() {
 
     try {
       const nextPage = page + 1;
-      const term = debouncedSearch;
 
       const result = await fetchVenues({
-        pageNumber: nextPage,
-        term,
+        page: nextPage,
+        limit,
+        q: debouncedSearch,
         signal: controller.signal,
       });
 
-      const termLower = term.trim().toLowerCase();
-      const moreFiltered = termLower
-        ? result.items.filter((v) =>
-            (v.name || "").toLowerCase().includes(termLower)
-          )
-        : result.items;
-
-      setVenues((prev) => [...prev, ...moreFiltered]);
+      setVenues((prev) => [...prev, ...result.items]);
       setPage(nextPage);
 
-      if (typeof result.meta.isLastPage === "boolean") {
+      if (typeof result.meta?.isLastPage === "boolean") {
         setHasMore(!result.meta.isLastPage);
       } else {
-        setHasMore(moreFiltered.length > 0);
+        setHasMore(result.items.length > 0);
       }
     } catch (error) {
+      if (error.name === "AbortError") return;
       console.error("Error loading more venues:", error);
       setErrorMessage(error.message || "Something went wrong");
     } finally {
@@ -167,8 +128,10 @@ function VenuesList() {
         <p className="text-xs text-slate-500 mt-1"> {errorMessage} </p>
       )}
 
-      {venues.length === 0 ? (
-        <p> No venues found. Try again </p>
+      {loading ? (
+        <p className="text-sm text-red-600 mb-3"> Loading venues...</p>
+      ) : venues.length === 0 ? (
+        <p> No venues found. Try again</p>
       ) : (
         <>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

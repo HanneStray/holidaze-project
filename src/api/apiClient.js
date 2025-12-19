@@ -42,13 +42,17 @@ function getAuthHeaders() {
   };
 }
 
-async function request(path, { method = "GET", body, auth = false } = {}) {
+async function request(
+  path,
+  { method = "GET", body, auth = false, signal } = {}
+) {
   const headers = auth ? getAuthHeaders() : getBaseHeaders();
 
   const response = await fetch(`${BASE_URL}${path}`, {
     method,
     headers,
     body: body ? JSON.stringify(body) : undefined,
+    signal,
   });
 
   const data = await response.json().catch(() => null);
@@ -58,6 +62,33 @@ async function request(path, { method = "GET", body, auth = false } = {}) {
     throw new Error(apiMessage || "Request failed");
   }
   return data;
+}
+
+export async function fetchVenues({ page = 1, limit = 24, q = "", signal }) {
+  const trimmed = q.trim();
+
+  const base = trimmed ? "/holidaze/venues/search" : "/holidaze/venues";
+
+  const params = new URLSearchParams();
+  params.set("limit", String(limit));
+  params.set("page", String(page));
+
+  if (trimmed) {
+    params.set("q", trimmed);
+  } else {
+    params.set("sort", "created");
+    params.set("sortOrder", "desc");
+  }
+
+  const data = await request(`${base}?${params.toString()}`, {
+    auth: false,
+    signal,
+  });
+
+  return {
+    items: data?.data || [],
+    meta: data?.meta || {},
+  };
 }
 
 export async function fetchVenueById(venueId) {
@@ -87,7 +118,7 @@ export async function deleteVenue(venueId) {
 
 export async function createVenue(venueData) {
   const data = await request(`/holidaze/venues`, {
-    method: "PUT",
+    method: "POST",
     auth: true,
     body: venueData,
   });
@@ -101,5 +132,15 @@ export async function updateVenue(venueId, venueData) {
     auth: true,
     body: venueData,
   });
+  return data.data;
+}
+
+export async function createBooking({ dateFrom, dateTo, guests, venueId }) {
+  const data = await request(`/holidaze/bookings`, {
+    method: "POST",
+    auth: true,
+    body: { dateFrom, dateTo, guests, venueId },
+  });
+
   return data.data;
 }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -8,6 +8,9 @@ function Login() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const redirect = params.get("redirect");
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -40,7 +43,7 @@ function Login() {
       localStorage.setItem("holidazeUser", JSON.stringify(userData));
       window.dispatchEvent(new Event("authChanged"));
 
-      navigate("/");
+      navigate(redirect || "/", { replace: true });
     } catch (error) {
       console.error("error logged in:", error);
       setErrorMessage(error.message || "Something went wrong during login");
@@ -95,7 +98,6 @@ function Login() {
       </form>
 
       <p className="text-xs text-slate-600 mt-4">
-        {" "}
         Don´t have an account yet {""}
         <a href="/register" className="text-sky-700 hover:underline">
           Register here
