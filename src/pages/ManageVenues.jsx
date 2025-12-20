@@ -99,6 +99,13 @@ function ManageVenues() {
               >
                 Delete
               </button>
+
+              <Link
+                to={`/venues/${venue.id}`}
+                className="rounded border border-slate-300 px-3 py-1 text-xs hover:bg-slate-50"
+              >
+                View (bookings)
+              </Link>
             </div>
           </li>
         ))}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -51,29 +51,25 @@ function Navbar() {
   return (
     <header className="bg-white shadow-sm mb-4">
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-        <a href="/" className="text-xl font-bold text-sky-700">
+        <Link to="/" className="text-xl font-bold text-sky-700">
           Holidaze{" "}
-        </a>
+        </Link>
 
         <div className="space-x-4 text-sm flex items-center">
-          <a href="/" className="text-slate-700 hover:text-sky-700">
+          <Link to="/" className="text-slate-700 hover:text-sky-700">
             Home{" "}
-          </a>
+          </Link>
 
-          {!user && (
-            <a href="/login" className="text-slate-700 hover:text-sky-700">
+          {!user ? (
+            <Link to="/login" className="text-slate-700 hover:text-sky-700">
               Login
-            </a>
-          )}
-
-          {user && (
+            </Link>
+          ) : (
             <>
-              <span className="text-slate-600">
-                Logged in as:{" "}
-                <span className="font-semibold text-sky-700">
-                  {user.name || user.email}
-                </span>
-              </span>
+              <Link to="/profile" className="text-slate-700 hover:text-sky-700">
+                {" "}
+                Profile
+              </Link>
 
               <button
                 type="button"

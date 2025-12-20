@@ -145,6 +145,15 @@ export async function createBooking({ dateFrom, dateTo, guests, venueId }) {
   return data.data;
 }
 
+export async function fetchVenueBookings(venueId, { signal } = {}) {
+  const data = await request(`/holidaze/venues/${venueId}?_bookings=true`, {
+    auth: true,
+    signal,
+  });
+
+  return data.data?.bookings || [];
+}
+
 export async function fetchMyBookings({ signal } = {}) {
   const user = getStoredUser();
   if (!user?.name) {
@@ -160,4 +169,29 @@ export async function fetchMyBookings({ signal } = {}) {
   );
 
   return data?.data || [];
+}
+
+export function getCurrentUser() {
+  return getStoredUser();
+}
+
+export async function fetchMyProfile() {
+  const user = getStoredUser();
+  if (!user.name) throw new Error("Missing username. Please log in again.");
+
+  const data = await request(`/holidaze/profiles/${user.name}`, { auth: true });
+  return data.data;
+}
+
+export async function updateMyAvatar(avatarUrl) {
+  const user = getStoredUser();
+  if (!user?.name) throw new Error("Missing username. Please login again");
+
+  const data = await request(`/holidaze/profiles/${user.name}`, {
+    method: "PUT",
+    auth: true,
+    body: { avatar: avatarUrl },
+  });
+
+  return data.data;
 }

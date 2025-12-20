@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -33,14 +33,49 @@ function Login() {
         }),
       });
 
+      const data = await response.json().catch(() => null);
+
       if (!response.ok) {
-        throw new Error("Login failed. Please check your email and password.");
+        const apiMessage = data?.errors?.[0]?.message;
+        throw new Error(
+          apiMessage || "Login failed. Please check your email and password."
+        );
       }
 
-      const data = await response.json();
-      const userData = data.data;
+      const u = data.data;
 
-      localStorage.setItem("holidazeUser", JSON.stringify(userData));
+      const profileRes = await fetch(
+        `https://v2.api.noroff.dev/holidaze/profiles/${u.name}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Noroff-API-Key": import.meta.env.VITE_NOROFF_API_KEY,
+            Authorization: `Bearer ${u.accessToken}`,
+          },
+        }
+      );
+
+      const profileJson = await profileRes.json().catch(() => null);
+
+      if (!profileRes.ok) {
+        const msg =
+          profileJson?.errors?.[0]?.message || "Could not load profile";
+        throw new Error(msg);
+      }
+
+      const profile = profileJson.data;
+
+      const storedUser = {
+        name: profile.name,
+        email: profile.email,
+        accessToken: u.accessToken,
+        venueManager: Boolean(profile.venueManager),
+        avatar: profile.avatar?.url || "",
+        banner: profile.banner?.url || "",
+      };
+
+      localStorage.setItem("holidazeUser", JSON.stringify(storedUser));
       window.dispatchEvent(new Event("authChanged"));
 
       navigate(redirect || "/", { replace: true });
@@ -98,10 +133,10 @@ function Login() {
       </form>
 
       <p className="text-xs text-slate-600 mt-4">
-        Don´t have an account yet {""}
-        <a href="/register" className="text-sky-700 hover:underline">
+        Don&apos;t have an account yet {""}
+        <Link to="/register" className="text-sky-700 hover:underline">
           Register here
-        </a>
+        </Link>
       </p>
     </div>
   );

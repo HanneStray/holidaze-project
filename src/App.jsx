@@ -11,6 +11,8 @@ import EditVenue from "./pages/EditVenue.jsx";
 import BookingConfirm from "./pages/BookingConfirm.jsx";
 import Bookings from "./pages/Bookings.jsx";
 
+import Profile from "./pages/Profile.jsx";
+
 function App() {
   return (
     <div className="min-h-screen bg-slate-100">
@@ -23,9 +25,12 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/venues/:id" element={<Venue />} />
 
+          <Route path="/Profile" element={<Profile />} />
+
           <Route path="/venues/manage" element={<ManageVenues />} />
           <Route path="/venues/create" element={<CreateVenue />} />
           <Route path="/venues/edit/:id" element={<EditVenue />} />
+
           <Route path="/booking/confirm" element={<BookingConfirm />} />
           <Route path="/bookings" element={<Bookings />} />
         </Routes>
