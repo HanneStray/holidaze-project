@@ -179,19 +179,30 @@ export async function fetchMyProfile() {
   const user = getStoredUser();
   if (!user.name) throw new Error("Missing username. Please log in again.");
 
-  const data = await request(`/holidaze/profiles/${user.name}`, { auth: true });
+  const data = await request(
+    `/holidaze/profiles/${user.name}?_venues=true&_bookings=true`,
+    { auth: true }
+  );
   return data.data;
 }
 
-export async function updateMyAvatar(avatarUrl) {
+export async function updateMyAvatar(url) {
   const user = getStoredUser();
   if (!user?.name) throw new Error("Missing username. Please login again");
 
-  const data = await request(`/holidaze/profiles/${user.name}`, {
-    method: "PUT",
-    auth: true,
-    body: { avatar: avatarUrl },
-  });
+  const data = await request(
+    `/holidaze/profiles/${encodeURIComponent(user.name)}`,
+    {
+      method: "PUT",
+      auth: true,
+      body: {
+        avatar: {
+          url,
+          alt: `Avatar for ${user.name}`,
+        },
+      },
+    }
+  );
 
   return data.data;
 }

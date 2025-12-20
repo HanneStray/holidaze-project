@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchMyBookings, updateMyAvatar } from "../api/apiClient";
 
@@ -31,7 +31,7 @@ function isUpcoming(dateTo) {
 
 export default function Profile() {
   const navigate = useNavigate();
-  const user = useMemo(() => getStoredUser(), []);
+  const [user, setUser] = useState(() => getStoredUser());
   const isManager = Boolean(user?.venueManager);
 
   const [loading, setLoading] = useState(true);
@@ -42,6 +42,30 @@ export default function Profile() {
   const [avatarUrl, setAvatarUrl] = useState(user?.avatar || "");
   const [avatarStatus, setAvatarStatus] = useState("");
   const [savingAvatar, setSavingAvatar] = useState(false);
+
+  useEffect(() => {
+    function syncUser() {
+      setUser(getStoredUser());
+    }
+
+    function handleStorage(event) {
+      if (event.key === "holidazeUser") {
+        syncUser();
+      }
+    }
+
+    window.addEventListener("authChanged", syncUser);
+    window.addEventListener("storage", handleStorage);
+
+    return () => {
+      window.removeEventListener("authChanged", syncUser);
+      window.removeEventListener("storage", handleStorage);
+    };
+  }, []);
+
+  useEffect(() => {
+    setAvatarUrl(user?.avatar || "");
+  }, [user?.avatar]);
 
   useEffect(() => {
     if (!user?.accessToken) {
@@ -90,7 +114,8 @@ export default function Profile() {
       const updated = await updateMyAvatar(trimmed);
 
       const current = getStoredUser();
-      const next = { ...current, avatar: updated?.avatar?.url || trimmed };
+      const newUrl = updated?.avatar?.url || updated?.avatar || trimmed;
+      const next = { ...current, avatar: newUrl };
       localStorage.setItem("holidazeUser", JSON.stringify(next));
       window.dispatchEvent(new Event("authChanged"));
 
@@ -134,6 +159,28 @@ export default function Profile() {
         <div className="mt-6 grid gap-6 md:grid-cols-2">
           <section className="rounded-lg border bg-white p-4">
             <h2 className="text-lg font-semibold"> Avatar </h2>
+            <div className="mt-3 flex items-center gap-3">
+              {user?.avatar ? (
+                <img
+                  src={user.avatar}
+                  alt="Your avatar"
+                  className="h-14 w-14 rounded-full object-cover border"
+                />
+              ) : (
+                <div className="h-14 w-14 rounded-full border bg-slate-100 flex items-center justify-center text-sm font-semibold text-slate-600">
+                  {(user?.name?.[0] || user?.email?.[0] || "?").toUpperCase()}
+                </div>
+              )}
+
+              <div>
+                <p className="text-sm font-medium text-slate-800">
+                  Hi, {user?.name || "there"} 👋
+                </p>
+                <p className="text-xs text-slate-600">
+                  Change your avatar with URL below
+                </p>
+              </div>
+            </div>
 
             <form onSubmit={onSaveAvatar} className="mt-3 space-y-2">
               <label className="block text-sm font-medium text-slate-700">

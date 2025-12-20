@@ -48,6 +48,9 @@ function Navbar() {
     navigate("/");
   }
 
+  const displayName = user?.name || user?.email || "";
+  const initial = (displayName?.[0] || "?").toUpperCase();
+
   return (
     <header className="bg-white shadow-sm mb-4">
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
@@ -66,9 +69,27 @@ function Navbar() {
             </Link>
           ) : (
             <>
-              <Link to="/profile" className="text-slate-700 hover:text-sky-700">
-                {" "}
-                Profile
+              <Link
+                to="/profile"
+                className="flex items-center gap-2 rounded-full hover:bg-slate-50 px-2 py-1"
+                title="Go to profile"
+              >
+                {user?.avatar ? (
+                  <img
+                    src={user.avatar}
+                    alt="Your avatar"
+                    className="h-8 w-8 rounded-full object-cover border"
+                  />
+                ) : (
+                  <div className="h-8 w-8 rounded-full border bg-slate-100 flex items-center justify-center text-xs font-semibold text-slate-700">
+                    {initial}
+                  </div>
+                )}
+                <span className="hidden sm:block text-slate-700">
+                  {" "}
+                  Hi,{" "}
+                  <span className="font-medium">{user?.name || "there"}</span>
+                </span>
               </Link>
 
               <button

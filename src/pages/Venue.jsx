@@ -1,7 +1,21 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import VenueCalendar from "../components/VenueCalendar.jsx";
 import { fetchVenueById } from "../api/apiClient.js";
+
+function getStoredUser() {
+  try {
+    return JSON.parse(localStorage.getItem("holidazeUser")) || null;
+  } catch {
+    return null;
+  }
+}
+
+function formatDate(value) {
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return value;
+  return d.toLocaleDateString("nb-NO");
+}
 
 function Venue() {
   const { id } = useParams();
@@ -17,12 +31,8 @@ function Venue() {
   const navigate = useNavigate();
 
   function isLoggedIn() {
-    try {
-      const user = JSON.parse(localStorage.getItem("holidazeUser"));
-      return !!user?.accessToken;
-    } catch {
-      return false;
-    }
+    const user = getStoredUser();
+    return Boolean(user?.accessToken);
   }
 
   useEffect(() => {
@@ -63,41 +73,43 @@ function Venue() {
     return <p className="p-4"> Venue not found </p>;
   }
 
-  let imgUrl = "https://via.placeholder.com/800x400?text=No+image";
-  let imgAlt = venue.name || "Venue image";
+  const user = getStoredUser();
+  const isManager = Boolean(user?.venueManager);
+  const canSeeVenueBookings = isManager;
 
-  if (venue.media && venue.media.length > 0) {
-    const firstMedia = venue.media[0];
-    if (firstMedia.url) {
-      imgUrl = firstMedia.url;
-    }
-    if (firstMedia.alt) {
-      imgAlt = firstMedia.alt;
-    }
-  }
+  let imgUrl = venue.media?.[0]?.url || "";
+  let imgAlt = venue.media?.[0]?.alt || venue.name || "Venue image";
 
   return (
     <div className="max-w-4xl mx-auto p-4">
       <div className="mb-4">
-        <a href="/" className="text-sm text-sky-700 hover:underline">
+        <Link to="/" className="text-sm text-sky-700 hover:underline">
           ← Back to all Venues
-        </a>
+        </Link>
       </div>
 
       <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-        <div className="h-64 w-full overflow-hidden">
-          <img
-            src={imgUrl}
-            alt={imgAlt}
-            className="h-full w-full object-cover"
-          />
+        <div className="h-64 w-full overflow-hidden bg-slate-200">
+          {imgUrl ? (
+            <img
+              src={imgUrl}
+              alt={imgAlt}
+              className="h-full w-full object-cover"
+            />
+          ) : (
+            <div className="h-full w-full flex items-center justify-center text-sm text-slate-600">
+              No image
+            </div>
+          )}
         </div>
+
         <div className="p-4 space-y-2">
           <h1 className="text-2xl font-bold text-slate-900"> {venue.name}</h1>
 
-          {venue.location && venue.location?.country && (
+          {venue.location?.country && (
             <p className="text-sm text-slate-600">
-              {venue.location.city}, {venue.location.country}
+              {venue.location.city ? `${venue.location.city}, ` : ""}
+              {venue.location.country}
             </p>
           )}
 
@@ -121,6 +133,38 @@ function Venue() {
         </p>
         <VenueCalendar bookings={venue.bookings || []} />
       </div>
+
+      {canSeeVenueBookings && (
+        <div className="bg-white rounded-lg shadow-sm p-4">
+          <h2 className="text-lg font-semibold mb-2">
+            Bookings for this venue
+          </h2>
+
+          {!venue.bookings || venue.bookings.length === 0 ? (
+            <p className="text-sm text-slate-600"> No bookings yet </p>
+          ) : (
+            <ul className="space-y-2">
+              {venue.bookings
+                .slice()
+                .sort((a, b) => new Date(a.dateFrom) - new Date(b.dateFrom))
+                .map((b) => (
+                  <li key={b.id} className="rounded border p-3">
+                    <p className="text-sm font-medium">
+                      {" "}
+                      {formatDate(b.dateFrom)} → {formatDate(b.dateTo)}{" "}
+                    </p>
+                    <p className="text-sm text-slate-600">Guests: {b.guests}</p>
+                    {b.customer?.name && (
+                      <p className="text-sm text-slate-600">
+                        Customer: {b.customer.name}
+                      </p>
+                    )}
+                  </li>
+                ))}
+            </ul>
+          )}
+        </div>
+      )}
 
       <div className="bg-white rounded-lg shadow-sm p-4 mt-4">
         <h3 className="font-semibold mb-2"> Book this venue</h3>
