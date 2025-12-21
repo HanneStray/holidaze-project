@@ -146,7 +146,7 @@ function VenuesList() {
                 type="button"
                 onClick={handleLoadMore}
                 disabled={loadingMore}
-                className="rounded border border-slate-300 bg-white px-4 py-2 text-sm hover:bg-slate-50 disabled::opacity-60"
+                className="rounded border border-slate-300 bg-white px-4 py-2 text-sm hover:bg-slate-50 disabled:opacity-60"
               >
                 {loadingMore ? "Loading..." : "Load More"}
               </button>

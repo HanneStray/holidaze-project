@@ -12,6 +12,7 @@ import BookingConfirm from "./pages/BookingConfirm.jsx";
 import Bookings from "./pages/Bookings.jsx";
 
 import Profile from "./pages/Profile.jsx";
+import RequireVenueManager from "./components/RequireVenueManager.jsx";
 
 function App() {
   return (
@@ -25,11 +26,32 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/venues/:id" element={<Venue />} />
 
-          <Route path="/Profile" element={<Profile />} />
+          <Route path="/profile" element={<Profile />} />
 
-          <Route path="/venues/manage" element={<ManageVenues />} />
-          <Route path="/venues/create" element={<CreateVenue />} />
-          <Route path="/venues/edit/:id" element={<EditVenue />} />
+          <Route
+            path="/venues/manage"
+            element={
+              <RequireVenueManager>
+                <ManageVenues />
+              </RequireVenueManager>
+            }
+          />
+          <Route
+            path="/venues/create"
+            element={
+              <RequireVenueManager>
+                <CreateVenue />
+              </RequireVenueManager>
+            }
+          />
+          <Route
+            path="/venues/edit/:id"
+            element={
+              <RequireVenueManager>
+                <EditVenue />
+              </RequireVenueManager>
+            }
+          />
 
           <Route path="/booking/confirm" element={<BookingConfirm />} />
           <Route path="/bookings" element={<Bookings />} />
