@@ -68,6 +68,7 @@ Email: hanhel55335@stud.noroff.no
 ## Acknowledgments
 
 - Noroff API (Holidaze) documentation
+- Hero Image: https://unsplash.com/photos/brown-wooden-boat-moving-towards-the-mountain-O453M2Liufs
 
 ## Links Project Delivery
 

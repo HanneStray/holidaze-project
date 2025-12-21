@@ -54,13 +54,17 @@ function Navbar() {
   return (
     <header className="bg-white shadow-sm mb-4">
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-        <Link to="/" className="text-xl font-bold text-sky-700">
+        <Link
+          to="/"
+          className="text-xl font-semibold tracking-tight hover:opacity-80"
+          style={{ color: "#869D7A" }}
+        >
           Holidaze{" "}
         </Link>
 
         <div className="space-x-4 text-sm flex items-center">
           <Link to="/" className="text-slate-700 hover:text-sky-700">
-            Home{" "}
+            Home
           </Link>
 
           {!user ? (
