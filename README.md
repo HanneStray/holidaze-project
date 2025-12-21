@@ -72,8 +72,8 @@ Email: hanhel55335@stud.noroff.no
 ## Links Project Delivery
 
 - Gantt chart: https://trello.com/b/HHE2UG8z
-- Design prototype:
+- Design prototype: https://www.figma.com/design/OEVaNEt1LMZp3MQ6nZOViC/Holidaze---prototype?node-id=0-1&t=bCGxvzI2YL8HN4HZ-1
 - Style guide: https://www.figma.com/deck/fvJl1L0jqotzshJpYD8kXz/Project-Exam---Holidaze?node-id=46-115&t=RH6hEE13z2FBy0V9-1
 - Kanban Board: https://trello.com/b/BBOWlxg3
-- Repository:
-- Hosted demo:
+- Repository: https://github.com/HanneStray/holidaze-project
+- Hosted demo: https://hanneholidazeproject.netlify.app
