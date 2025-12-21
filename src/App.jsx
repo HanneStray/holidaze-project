@@ -4,6 +4,7 @@ import VenuesList from "./pages/VenuesList.jsx";
 import Login from "./pages/Login.jsx";
 import Venue from "./pages/Venue.jsx";
 import Navbar from "./components/Navbar.jsx";
+import Footer from "./components/Footer.jsx";
 import Register from "./pages/Register.jsx";
 
 import ManageVenues from "./pages/ManageVenues.jsx";
@@ -17,10 +18,10 @@ import RequireVenueManager from "./components/RequireVenueManager.jsx";
 
 function App() {
   return (
-    <div className="min-h-screen bg-slate-100">
+    <div className="min-h-screen bg-slate-100 flex flex-col">
       <Navbar />
 
-      <main className="mx-auto max-w-5xl px-4 py-6">
+      <main className="mx-auto w-full max-w-5xl px-4 py-6 flex-1">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/venuesList" element={<VenuesList />} />
@@ -59,6 +60,7 @@ function App() {
           <Route path="/bookings" element={<Bookings />} />
         </Routes>
       </main>
+      <Footer />
     </div>
   );
 }
