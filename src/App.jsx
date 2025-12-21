@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home.jsx";
 import VenuesList from "./pages/VenuesList.jsx";
 import Login from "./pages/Login.jsx";
 import Venue from "./pages/Venue.jsx";
@@ -21,7 +22,8 @@ function App() {
 
       <main className="mx-auto max-w-5xl px-4 py-6">
         <Routes>
-          <Route path="/" element={<VenuesList />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/venuesList" element={<VenuesList />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/venues/:id" element={<Venue />} />
