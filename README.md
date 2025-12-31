@@ -3,6 +3,12 @@
 Front-end application for accommodation booking site "Holidaze".
 Built as a part of Noroff Front-end Development - Project Exam 2.
 
+The project demonstrates use of React, API communication, routing and responsive design.
+
+## Screenshot
+
+![Holidaze Homepage] (.assets/screenshot.png)
+
 ## Description
 
 Holidaze is a booking site where users can browse venues, search venues, view venue details, see availability and create a booking.
@@ -60,6 +66,10 @@ npm run build
 ## Contributing
 
 This project is a school exam delivery, not open for contribution
+
+## Important note
+
+This repository is currently under assessment. No changes have been made to the project code after submission, only documentation (README.md) has been edited as a part of Portfolio 2 course assignment.
 
 ### Contact
 
