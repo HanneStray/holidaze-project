@@ -7,7 +7,7 @@ The project demonstrates use of React, API communication, routing and responsive
 
 ## Screenshot
 
-![Holidaze Homepage] (.assets/screenshot.png)
+![Holidaze Homepage](./assets/screenshot.png)
 
 ## Description
 
