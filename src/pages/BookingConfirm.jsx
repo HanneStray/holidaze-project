@@ -2,6 +2,11 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { createBooking, fetchVenueById } from "../api/apiClient";
 
+/**
+ * Booking confirmation page component.
+ * Displays a summary of the booking details and allows the user to confirm or go back.
+ * @returns {JSX.Element} The booking confirmation page.
+ */
 function BookingConfirm() {
   const navigate = useNavigate();
   const [params] = useSearchParams();
@@ -43,16 +48,29 @@ function BookingConfirm() {
       .finally(() => setLoading(false));
   }, [venueId]);
 
+  /**
+   * Validates the booking parameters and submits the booking to the API.
+   * Navigates to the bookings page on success.
+   */
   async function handleConfirm() {
-    console.log({ venueId, dateFrom, dateTo, guests, nights });
-
     setError("");
 
-    if (!venueId) return setError("Missing venueId.");
-    if (!dateFrom || !dateTo) return setError("Missing dates.");
-    if (nights === 0) return setError("Check-out must be after check-in.");
-    if (!Number.isFinite(guests) || guests < 1)
-      return setError("invalid guests");
+    if (!venueId) {
+      setError("Missing venueId.");
+      return;
+    }
+    if (!dateFrom || !dateTo) {
+      setError("Missing dates.");
+      return;
+    }
+    if (nights === 0) {
+      setError("Check-out must be after check-in.");
+      return;
+    }
+    if (!Number.isFinite(guests) || guests < 1) {
+      setError("Invalid guests");
+      return;
+    }
 
     try {
       setSubmitting(true);

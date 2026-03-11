@@ -1,7 +1,12 @@
+/**
+ * Displays a single venue as a card with an image and name.
+ * @param {object} props - Component props.
+ * @param {object} props.venue - The venue object to display.
+ * @returns {JSX.Element} A clickable venue card linking to the venue page.
+ */
 function VenueCard({ venue }) {
-  //placeholder image
   let imgUrl = "https://via.placeholder.com/400x250?text=No+image";
-  let imgAlt = venue.name || "Venue Image";
+  const imgAlt = venue.name || "Venue Image";
 
   if (venue.media && venue.media.length > 0 && venue.media[0].url) {
     imgUrl = venue.media[0].url;

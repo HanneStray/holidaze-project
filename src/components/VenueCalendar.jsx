@@ -1,14 +1,33 @@
 import { useMemo, useState } from "react";
 
+/**
+ * Returns a new Date set to midnight (start of day) for the given date.
+ * @param {Date|string} d - The date to normalise.
+ * @returns {Date} A Date object at 00:00:00.000.
+ */
 function startOfDay(d) {
   const x = new Date(d);
   x.setHours(0, 0, 0, 0);
   return x;
 }
+
+/**
+ * Returns a unique numeric key for a given year and month combination.
+ * @param {number} year - The full year (e.g. 2025).
+ * @param {number} month - The zero-based month index (0–11).
+ * @returns {number} A unique integer key for the year/month pair.
+ */
 function monthKey(year, month) {
   return year * 12 + month;
 }
 
+/**
+ * Calendar component that displays booked and available days for a venue.
+ * Allows navigating between months starting from the current month.
+ * @param {object} props - Component props.
+ * @param {object[]} [props.bookings=[]] - Array of booking objects with dateFrom and dateTo.
+ * @returns {JSX.Element} An interactive monthly calendar view.
+ */
 export default function VenueCalendar({ bookings = [] }) {
   const today = new Date();
 
@@ -51,12 +70,20 @@ export default function VenueCalendar({ bookings = [] }) {
       }));
   }, [bookings]);
 
+  /**
+   * Checks whether a given day number in the current view is booked.
+   * @param {number} dayNumber - The day of the month to check.
+   * @returns {boolean} True if the day falls within any booking range.
+   */
   function isDayBooked(dayNumber) {
     const date = startOfDay(new Date(viewYear, viewMonth, dayNumber));
 
     return normalizedBookings.some((b) => date >= b.from && date < b.to);
   }
 
+  /**
+   * Navigates the calendar view to the previous month, if not already at the minimum.
+   */
   function goPrevMonth() {
     if (isPrevDisabled) return;
 
@@ -68,6 +95,9 @@ export default function VenueCalendar({ bookings = [] }) {
     });
   }
 
+  /**
+   * Navigates the calendar view to the next month.
+   */
   function goNextMonth() {
     setView((prev) => {
       const y = prev.year;
@@ -77,6 +107,9 @@ export default function VenueCalendar({ bookings = [] }) {
     });
   }
 
+  /**
+   * Resets the calendar view to the current month.
+   */
   function goToday() {
     setView({ year: minYear, month: minMonth });
   }
@@ -98,7 +131,7 @@ export default function VenueCalendar({ bookings = [] }) {
   const btnBase =
     "rounded border px-2 py-1 text-xs bg-white shadow-sm " +
     "cursor-pointer hover:bg-slate-50 hover:shadow hover:-translate-y-[1px] " +
-    "active:bg-slate-100 active:scale-[0.97]" +
+    "active:bg-slate-100 active:scale-[0.97] " +
     "transition-all duration-150";
 
   const btnDisabled =
@@ -185,12 +218,11 @@ export default function VenueCalendar({ bookings = [] }) {
           return (
             <div
               key={cell.key}
-              className={
-                "p-2 rounded border flex flex-col items-center justify-center " +
-                (booked
+              className={`p-2 rounded border flex flex-col items-center justify-center ${
+                booked
                   ? "bg-red-100 text-red-800 border-red-300"
-                  : "bg-green-50 text-green-800 border-green-200")
-              }
+                  : "bg-green-50 text-green-800 border-green-200"
+              }`}
             >
               <span className="text-sm">{cell.day}</span>
               <span className="text-[10px] mt-1">

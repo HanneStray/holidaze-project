@@ -2,6 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createVenue } from "../api/apiClient";
 
+/**
+ * Page component for creating a new venue.
+ * Renders a form and submits venue data to the API on submit.
+ * @returns {JSX.Element} The create venue form page.
+ */
 function CreateVenue() {
   const navigate = useNavigate();
 
@@ -16,6 +21,11 @@ function CreateVenue() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  /**
+   * Handles form submission for creating a new venue.
+   * Validates inputs, builds the venue payload, and calls the API.
+   * @param {React.FormEvent<HTMLFormElement>} event - The form submit event.
+   */
   async function handleSubmit(event) {
     event.preventDefault();
     setErrorMessage("");
@@ -61,7 +71,6 @@ function CreateVenue() {
       await createVenue(venueData);
       navigate("/venues/manage");
     } catch (error) {
-      console.error(error);
       setErrorMessage(error.message || "Something went wrong");
     } finally {
       setIsSubmitting(false);
@@ -74,10 +83,14 @@ function CreateVenue() {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-1">
+          <label
+            htmlFor="venueName"
+            className="block text-sm font-medium text-slate-700 mb-1"
+          >
             Name
           </label>
           <input
+            id="venueName"
             type="text"
             className="w-full border rounded border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
             value={name}
@@ -87,10 +100,14 @@ function CreateVenue() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-1">
+          <label
+            htmlFor="venueDescription"
+            className="block text-sm font-medium text-slate-700 mb-1"
+          >
             Description
           </label>
           <textarea
+            id="venueDescription"
             className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -101,10 +118,14 @@ function CreateVenue() {
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
+            <label
+              htmlFor="venuePrice"
+              className="block text-sm font-medium text-slate-700 mb-1"
+            >
               Price per night
             </label>
             <input
+              id="venuePrice"
               type="number"
               className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
               value={price}
@@ -114,10 +135,14 @@ function CreateVenue() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
+            <label
+              htmlFor="venueMaxGuests"
+              className="block text-sm font-medium text-slate-700 mb-1"
+            >
               Max Guests
             </label>
             <input
+              id="venueMaxGuests"
               type="number"
               className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
               value={maxGuests}
@@ -131,10 +156,14 @@ function CreateVenue() {
           <h2 className="font-semibold text-slate-800 mb-2"> Photos </h2>
           <div className="space-y-3">
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">
+              <label
+                htmlFor="venueMediaUrl"
+                className="block text-sm font-medium text-slate-700 mb-1"
+              >
                 Image URL
               </label>
               <input
+                id="venueMediaUrl"
                 type="url"
                 required
                 className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
@@ -145,10 +174,14 @@ function CreateVenue() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate700 mb-1">
+              <label
+                htmlFor="venueMediaAlt"
+                className="block text-sm font-medium text-slate-700 mb-1"
+              >
                 Alt text
               </label>
               <input
+                id="venueMediaAlt"
                 type="text"
                 className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
                 value={mediaAlt}

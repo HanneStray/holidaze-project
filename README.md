@@ -73,7 +73,7 @@ This repository is currently under assessment. No changes have been made to the 
 
 ### Contact
 
-Email: hanhel55335@stud.noroff.no
+Email: hanne_stray@hotmail.com
 
 ## Acknowledgments
 

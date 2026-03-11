@@ -16,6 +16,12 @@ import Bookings from "./pages/Bookings.jsx";
 import Profile from "./pages/Profile.jsx";
 import RequireVenueManager from "./components/RequireVenueManager.jsx";
 
+/**
+ * Root application component.
+ * Sets up the page layout with Navbar and Footer, and defines all client-side routes.
+ * Venue manager routes are wrapped in RequireVenueManager for access control.
+ * @returns {JSX.Element} The application shell with routing.
+ */
 function App() {
   return (
     <div className="min-h-screen bg-slate-100 flex flex-col">

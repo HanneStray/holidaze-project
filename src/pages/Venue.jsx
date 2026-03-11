@@ -3,6 +3,10 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import VenueCalendar from "../components/VenueCalendar.jsx";
 import { fetchVenueById } from "../api/apiClient.js";
 
+/**
+ * Retrieves the stored user object from localStorage.
+ * @returns {object|null} The parsed user object, or null if not found or on error.
+ */
 function getStoredUser() {
   try {
     return JSON.parse(localStorage.getItem("holidazeUser")) || null;
@@ -11,12 +15,22 @@ function getStoredUser() {
   }
 }
 
+/**
+ * Formats a date value into a localised Norwegian date string.
+ * @param {string|Date} value - The date value to format.
+ * @returns {string} The formatted date string, or the original value if invalid.
+ */
 function formatDate(value) {
   const d = new Date(value);
   if (Number.isNaN(d.getTime())) return value;
   return d.toLocaleDateString("nb-NO");
 }
 
+/**
+ * Page component that displays details for a single venue.
+ * Includes venue info, an availability calendar, booking form, and bookings list for managers.
+ * @returns {JSX.Element} The venue detail page.
+ */
 function Venue() {
   const { id } = useParams();
   const [venue, setVenue] = useState(null);
@@ -30,6 +44,10 @@ function Venue() {
 
   const navigate = useNavigate();
 
+  /**
+   * Checks whether the current user is logged in.
+   * @returns {boolean} True if a user with an access token is stored.
+   */
   function isLoggedIn() {
     const user = getStoredUser();
     return Boolean(user?.accessToken);
@@ -40,6 +58,9 @@ function Venue() {
 
     let isMounted = true;
 
+    /**
+     * Fetches the venue data from the API and updates state.
+     */
     async function load() {
       setLoading(true);
       setError("");
@@ -77,8 +98,8 @@ function Venue() {
   const isManager = Boolean(user?.venueManager);
   const canSeeVenueBookings = isManager;
 
-  let imgUrl = venue.media?.[0]?.url || "";
-  let imgAlt = venue.media?.[0]?.alt || venue.name || "Venue image";
+  const imgUrl = venue.media?.[0]?.url || "";
+  const imgAlt = venue.media?.[0]?.alt || venue.name || "Venue image";
 
   return (
     <div className="max-w-4xl mx-auto p-4">

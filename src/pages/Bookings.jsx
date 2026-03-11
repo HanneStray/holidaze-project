@@ -2,6 +2,11 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchMyBookings } from "../api/apiClient";
 
+/**
+ * Formats an ISO date string into a human-readable date.
+ * @param {string} iso - The ISO date string to format.
+ * @returns {string} The formatted date string, or an empty string if no value is provided.
+ */
 function formatDate(iso) {
   if (!iso) return "";
   const d = new Date(iso);
@@ -12,11 +17,21 @@ function formatDate(iso) {
   }).format(d);
 }
 
+/**
+ * Checks whether an error is an AbortError from a cancelled fetch.
+ * @param {Error} err - The error to check.
+ * @returns {boolean} True if the error is an abort error.
+ */
 function isAbortError(err) {
   const msg = String(err?.message || "").toLowerCase();
   return err?.name === "AbortError" || msg.includes("aborted");
 }
 
+/**
+ * Page component that lists all bookings for the currently logged-in user.
+ * Redirects to login if the user is not authenticated.
+ * @returns {JSX.Element} The bookings list page.
+ */
 function Bookings() {
   const navigate = useNavigate();
 
@@ -27,6 +42,9 @@ function Bookings() {
   useEffect(() => {
     const controller = new AbortController();
 
+    /**
+     * Fetches the current user's bookings from the API.
+     */
     async function loadBookings() {
       try {
         setError("");

@@ -2,11 +2,18 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchMyVenues, deleteVenue } from "../api/apiClient";
 
+/**
+ * Page component for venue managers to view, edit, and delete their venues.
+ * @returns {JSX.Element} The manage venues page.
+ */
 function ManageVenues() {
   const [venues, setVenues] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
+  /**
+   * Fetches the current user's venues from the API and updates state.
+   */
   async function load() {
     setErrorMessage("");
     setIsLoading(true);
@@ -15,7 +22,6 @@ function ManageVenues() {
       const myVenues = await fetchMyVenues();
       setVenues(myVenues);
     } catch (error) {
-      console.error(error);
       setErrorMessage(error.message || "Something went wrong");
     } finally {
       setIsLoading(false);
@@ -26,6 +32,10 @@ function ManageVenues() {
     load();
   }, []);
 
+  /**
+   * Prompts the user for confirmation and deletes the specified venue.
+   * @param {string} id - The ID of the venue to delete.
+   */
   async function handleDelete(id) {
     const ok = window.confirm("Delete this venue? This cannot be undone");
     if (!ok) return;
@@ -34,7 +44,6 @@ function ManageVenues() {
       await deleteVenue(id);
       setVenues((prev) => prev.filter((v) => v.id !== id));
     } catch (error) {
-      console.error(error);
       setErrorMessage(error.message || "Could not delete venue");
     }
   }

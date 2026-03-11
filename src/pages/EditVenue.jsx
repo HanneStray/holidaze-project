@@ -2,6 +2,11 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchVenueById, updateVenue } from "../api/apiClient.js";
 
+/**
+ * Page component for editing an existing venue.
+ * Loads the current venue data and renders a pre-filled form for updating it.
+ * @returns {JSX.Element} The edit venue form page.
+ */
 function EditVenue() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -19,6 +24,9 @@ function EditVenue() {
   const [mediaAlt, setMediaAlt] = useState("");
 
   useEffect(() => {
+    /**
+     * Loads the venue data from the API and populates the form fields.
+     */
     async function loadVenue() {
       setErrorMessage("");
       setIsLoading(true);
@@ -35,7 +43,6 @@ function EditVenue() {
         setMediaUrl(firstMedia?.url || "");
         setMediaAlt(firstMedia?.alt || "");
       } catch (error) {
-        console.error(error);
         setErrorMessage(error.message || "Could not load venue");
       } finally {
         setIsLoading(false);
@@ -45,6 +52,11 @@ function EditVenue() {
     loadVenue();
   }, [id]);
 
+  /**
+   * Handles form submission for updating the venue.
+   * Validates inputs, builds the venue payload, and calls the API.
+   * @param {React.FormEvent<HTMLFormElement>} event - The form submit event.
+   */
   async function handleSubmit(event) {
     event.preventDefault();
     setErrorMessage("");
@@ -88,7 +100,6 @@ function EditVenue() {
       await updateVenue(id, venueData);
       navigate("/venues/manage");
     } catch (error) {
-      console.error(error);
       setErrorMessage(error.message || "Something went wrong");
     } finally {
       setIsSubmitting(false);
@@ -109,10 +120,14 @@ function EditVenue() {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-1">
+          <label
+            htmlFor="venueName"
+            className="block text-sm font-medium text-slate-700 mb-1"
+          >
             Name
           </label>
           <input
+            id="venueName"
             type="text"
             className="w-full border rounded border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
             value={name}
@@ -122,10 +137,14 @@ function EditVenue() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-1">
+          <label
+            htmlFor="venueDescription"
+            className="block text-sm font-medium text-slate-700 mb-1"
+          >
             Description
           </label>
           <textarea
+            id="venueDescription"
             className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -136,10 +155,14 @@ function EditVenue() {
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
+            <label
+              htmlFor="venuePrice"
+              className="block text-sm font-medium text-slate-700 mb-1"
+            >
               Price per night
             </label>
             <input
+              id="venuePrice"
               type="number"
               className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
               value={price}
@@ -149,10 +172,14 @@ function EditVenue() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
+            <label
+              htmlFor="venueMaxGuests"
+              className="block text-sm font-medium text-slate-700 mb-1"
+            >
               Max Guests
             </label>
             <input
+              id="venueMaxGuests"
               type="number"
               className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
               value={maxGuests}
@@ -166,10 +193,14 @@ function EditVenue() {
           <h2 className="font-semibold text-slate-800 mb-2"> Photos </h2>
           <div className="space-y-3">
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">
+              <label
+                htmlFor="venueMediaUrl"
+                className="block text-sm font-medium text-slate-700 mb-1"
+              >
                 Image URL
               </label>
               <input
+                id="venueMediaUrl"
                 type="url"
                 required
                 className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
@@ -180,10 +211,14 @@ function EditVenue() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate700 mb-1">
+              <label
+                htmlFor="venueMediaAlt"
+                className="block text-sm font-medium text-slate-700 mb-1"
+              >
                 Alt text
               </label>
               <input
+                id="venueMediaAlt"
                 type="text"
                 className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
                 value={mediaAlt}

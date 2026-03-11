@@ -1,16 +1,25 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
+/**
+ * Site navigation bar component.
+ * Displays the logo, home link, and either a login link or user avatar with logout button
+ * depending on whether a user is currently logged in.
+ * @returns {JSX.Element} The navigation header element.
+ */
 function Navbar() {
   const navigate = useNavigate();
 
+  /**
+   * Reads and parses the stored user from localStorage.
+   * @returns {object|null} The parsed user object, or null if not found or on parse error.
+   */
   function loadUser() {
     try {
       const storedUser = localStorage.getItem("holidazeUser");
       if (!storedUser) return null;
       return JSON.parse(storedUser);
-    } catch (error) {
-      console.error("Error reading user from localStorage:", error);
+    } catch {
       return null;
     }
   }
@@ -18,10 +27,17 @@ function Navbar() {
   const [user, setUser] = useState(() => loadUser());
 
   useEffect(() => {
+    /**
+     * Refreshes the user state from localStorage.
+     */
     function updateUserFromStorage() {
       setUser(loadUser());
     }
 
+    /**
+     * Handles cross-tab storage events and updates user if the key matches.
+     * @param {StorageEvent} event - The storage event.
+     */
     function handleStorage(event) {
       if (event.key === "holidazeUser") {
         updateUserFromStorage();
@@ -37,11 +53,14 @@ function Navbar() {
     };
   }, []);
 
+  /**
+   * Logs the current user out by clearing localStorage and redirecting to home.
+   */
   function handleLogout() {
     try {
       localStorage.removeItem("holidazeUser");
-    } catch (error) {
-      console.error("Error removing user", error);
+    } catch {
+      // Silently ignore storage errors on logout
     }
 
     window.dispatchEvent(new Event("authChanged"));

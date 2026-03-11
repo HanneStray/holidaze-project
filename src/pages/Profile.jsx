@@ -2,11 +2,20 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchMyBookings, updateMyAvatar } from "../api/apiClient";
 
+/**
+ * Checks whether an error is an AbortError from a cancelled fetch.
+ * @param {Error} err - The error to check.
+ * @returns {boolean} True if the error is an abort error.
+ */
 function isAbortError(err) {
   const msg = String(err?.message || "").toLowerCase();
   return err?.name === "AbortError" || msg.includes("aborted");
 }
 
+/**
+ * Retrieves the stored user object from localStorage.
+ * @returns {object|null} The parsed user object, or null if not found or on error.
+ */
 function getStoredUser() {
   try {
     const raw = localStorage.getItem("holidazeUser");
@@ -16,12 +25,22 @@ function getStoredUser() {
   }
 }
 
+/**
+ * Formats a date value into a localised Norwegian date string.
+ * @param {string|Date} value - The date value to format.
+ * @returns {string} The formatted date string, or the original value if invalid.
+ */
 function formatDate(value) {
   const d = new Date(value);
   if (Number.isNaN(d.getTime())) return value;
   return d.toLocaleDateString("nb-NO");
 }
 
+/**
+ * Checks whether a booking end date is today or in the future.
+ * @param {string} dateTo - The booking end date as an ISO string.
+ * @returns {boolean} True if the booking has not yet ended.
+ */
 function isUpcoming(dateTo) {
   const end = new Date(dateTo);
   const today = new Date();
@@ -29,6 +48,11 @@ function isUpcoming(dateTo) {
   return end >= today;
 }
 
+/**
+ * Profile page component.
+ * Shows the user's avatar, upcoming bookings, and venue manager links if applicable.
+ * @returns {JSX.Element} The profile page.
+ */
 export default function Profile() {
   const navigate = useNavigate();
   const [user, setUser] = useState(() => getStoredUser());
@@ -44,10 +68,17 @@ export default function Profile() {
   const [savingAvatar, setSavingAvatar] = useState(false);
 
   useEffect(() => {
+    /**
+     * Refreshes the user state from localStorage.
+     */
     function syncUser() {
       setUser(getStoredUser());
     }
 
+    /**
+     * Handles cross-tab storage events and updates user if the key matches.
+     * @param {StorageEvent} event - The storage event.
+     */
     function handleStorage(event) {
       if (event.key === "holidazeUser") {
         syncUser();
@@ -75,6 +106,9 @@ export default function Profile() {
 
     const controller = new AbortController();
 
+    /**
+     * Fetches the user's upcoming bookings from the API.
+     */
     async function load() {
       try {
         setError("");
@@ -99,6 +133,11 @@ export default function Profile() {
     return () => controller.abort();
   }, [navigate, user?.accessToken]);
 
+  /**
+   * Handles the avatar update form submission.
+   * Validates the URL, calls the API, and updates localStorage.
+   * @param {React.FormEvent<HTMLFormElement>} e - The form submit event.
+   */
   async function onSaveAvatar(e) {
     e.preventDefault();
     setAvatarStatus("");
@@ -183,11 +222,15 @@ export default function Profile() {
             </div>
 
             <form onSubmit={onSaveAvatar} className="mt-3 space-y-2">
-              <label className="block text-sm font-medium text-slate-700">
+              <label
+                htmlFor="avatarUrl"
+                className="block text-sm font-medium text-slate-700"
+              >
                 {" "}
                 Avatar image URL{" "}
               </label>
               <input
+                id="avatarUrl"
                 value={avatarUrl}
                 onChange={(e) => setAvatarUrl(e.target.value)}
                 className="w-full rounded-md border px-3 py-2 text-sm"

@@ -1,3 +1,8 @@
+/**
+ * Hero banner component displayed at the top of the home page.
+ * Shows a full-width travel image with an overlaid headline and tagline.
+ * @returns {JSX.Element} The hero section element.
+ */
 export default function Hero() {
   const heroUrl =
     "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=2340&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";

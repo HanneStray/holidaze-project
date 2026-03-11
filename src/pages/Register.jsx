@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Registration page component.
+ * Allows new users to create an account using a stud.noroff.no email address.
+ * @returns {JSX.Element} The registration form page.
+ */
 function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -12,10 +17,20 @@ function Register() {
 
   const navigate = useNavigate();
 
+  /**
+   * Checks whether the given email address ends with the required student domain.
+   * @param {string} value - The email address to validate.
+   * @returns {boolean} True if the email ends with @stud.noroff.no.
+   */
   function isStudEmail(value) {
     return value.toLowerCase().endsWith("@stud.noroff.no");
   }
 
+  /**
+   * Handles registration form submission.
+   * Validates inputs and submits the new account to the API.
+   * @param {React.FormEvent<HTMLFormElement>} event - The form submit event.
+   */
   async function handleSubmit(event) {
     event.preventDefault();
     setErrorMessage("");
@@ -52,7 +67,6 @@ function Register() {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => null);
-        console.error("register error data:", errorData);
 
         const apiMessage = errorData?.errors?.[0]?.message;
 
@@ -67,15 +81,13 @@ function Register() {
         );
       }
 
-      const data = await response.json();
-      console.log("register response:", data);
+      await response.json();
 
       setSuccessMessage("Registration successful! You can now log in.");
       setTimeout(() => {
         navigate("/login");
       }, 1500);
     } catch (error) {
-      console.error("Error registering user:", error);
       setErrorMessage(
         error.message || "Something went wrong during registration"
       );
@@ -96,10 +108,14 @@ function Register() {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-1">
+          <label
+            htmlFor="registerName"
+            className="block text-sm font-medium text-slate-700 mb-1"
+          >
             Name
           </label>
           <input
+            id="registerName"
             type="text"
             className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
             placeholder="your name"
@@ -109,10 +125,14 @@ function Register() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-1">
+          <label
+            htmlFor="registerEmail"
+            className="block text-sm font-medium text-slate-700 mb-1"
+          >
             Email
           </label>
           <input
+            id="registerEmail"
             type="email"
             className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
             placeholder="yourname@stud.noroff.no"
@@ -122,10 +142,14 @@ function Register() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-1">
+          <label
+            htmlFor="registerPassword"
+            className="block text-sm font-medium text-slate-700 mb-1"
+          >
             Password
           </label>
           <input
+            id="registerPassword"
             type="password"
             className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
             placeholder="Choose a password"

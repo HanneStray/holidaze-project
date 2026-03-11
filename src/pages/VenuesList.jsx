@@ -2,6 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import VenueCard from "../components/VenueCard.jsx";
 import { fetchVenues } from "../api/apiClient.js";
 
+/**
+ * Page component that displays a searchable, paginated list of venues.
+ * @returns {JSX.Element} The venues list page with search and load more functionality.
+ */
 function VenuesList() {
   const [venues, setVenues] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -28,6 +32,9 @@ function VenuesList() {
   useEffect(() => {
     const controller = new AbortController();
 
+    /**
+     * Fetches the first page of venues and resets the list.
+     */
     async function loadFirstPage() {
       setErrorMessage("");
       setLoading(true);
@@ -52,7 +59,6 @@ function VenuesList() {
       } catch (error) {
         if (error.name === "AbortError") return;
 
-        console.error("Error loading venues:", error);
         setErrorMessage(error.message || "Something went wrong");
         setVenues([]);
         setHasMore(false);
@@ -69,6 +75,9 @@ function VenuesList() {
     return () => controller.abort();
   }, [debouncedSearch]);
 
+  /**
+   * Loads the next page of venues and appends them to the existing list.
+   */
   async function handleLoadMore() {
     setErrorMessage("");
     setLoadingMore(true);
@@ -95,7 +104,6 @@ function VenuesList() {
       }
     } catch (error) {
       if (error.name === "AbortError") return;
-      console.error("Error loading more venues:", error);
       setErrorMessage(error.message || "Something went wrong");
     } finally {
       setLoadingMore(false);
@@ -111,10 +119,14 @@ function VenuesList() {
       <h1 className="text-2xl font-bold mb-2"> Venues </h1>
 
       <div className="mb-4">
-        <label className="block text-sm font-medium text-slate-700 mb-1">
+        <label
+          htmlFor="venueSearch"
+          className="block text-sm font-medium text-slate-700 mb-1"
+        >
           Search venues by name
         </label>
         <input
+          id="venueSearch"
           ref={searchInputRef}
           type="text"
           placeholder="Search for a venue here"

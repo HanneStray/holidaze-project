@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 
+/**
+ * Login page component.
+ * Handles user authentication via the Noroff API and stores the session in localStorage.
+ * @returns {JSX.Element} The login form page.
+ */
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -12,6 +17,11 @@ function Login() {
   const params = new URLSearchParams(location.search);
   const redirect = params.get("redirect");
 
+  /**
+   * Handles login form submission.
+   * Authenticates the user, fetches their profile, and stores the session.
+   * @param {React.FormEvent<HTMLFormElement>} event - The form submit event.
+   */
   async function handleSubmit(event) {
     event.preventDefault();
     setErrorMessage("");
@@ -80,7 +90,6 @@ function Login() {
 
       navigate(redirect || "/", { replace: true });
     } catch (error) {
-      console.error("error logged in:", error);
       setErrorMessage(error.message || "Something went wrong during login");
     } finally {
       setIsSubmitting(false);
@@ -96,10 +105,14 @@ function Login() {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-1">
+          <label
+            htmlFor="loginEmail"
+            className="block text-sm font-medium text-slate-700 mb-1"
+          >
             Email
           </label>
           <input
+            id="loginEmail"
             type="email"
             className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
             placeholder="yourname@stud.noroff.no"
@@ -109,10 +122,14 @@ function Login() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-1">
+          <label
+            htmlFor="loginPassword"
+            className="block text-sm font-medium text-slate-700 mb-1"
+          >
             Password
           </label>
           <input
+            id="loginPassword"
             type="password"
             className="w-full rounded border border-slate-300 px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
             placeholder="Your password"
