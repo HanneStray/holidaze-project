@@ -67,10 +67,6 @@ npm run build
 
 This project is a school exam delivery, not open for contribution
 
-## Important note
-
-This repository is currently under assessment. No changes have been made to the project code after submission, only documentation (README.md) has been edited as a part of Portfolio 2 course assignment.
-
 ### Contact
 
 Email: hanne_stray@hotmail.com
@@ -88,3 +84,20 @@ Email: hanne_stray@hotmail.com
 - Kanban Board: https://trello.com/b/BBOWlxg3
 - Repository: https://github.com/HanneStray/holidaze-project
 - Hosted demo: https://hanneholidazeproject.netlify.app
+
+## Code Review & Improvements
+
+Following feedback received on Project Exam 2, the following improvements were made:
+
+### Bug Fixes & Code Quality
+- Removed all `console.log` and `console.error` statements across the codebase
+- Fixed accessibility issues by adding `htmlFor` and matching `id` attributes to all label/input pairs
+- Replaced `let` with `const` for variables that are never reassigned
+- Replaced string concatenation with template literals
+- Fixed inconsistent return statements in async functions
+
+### Documentation
+- Added JSDoc comments to all functions and components across 19 source files
+
+### Bonus Fix
+- Corrected a typo in `Navbar.jsx` where `JusName` was used instead of `className`
