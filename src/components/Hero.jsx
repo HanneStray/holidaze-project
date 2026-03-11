@@ -9,7 +9,7 @@ export default function Hero() {
 
   return (
     <section className="relative overflow-hidden rounded-2xl">
-      <div className="h-[240px] sm:h-[340px] lg:h-[420px]">
+      <div className="h-60 sm:h-[340px] lg:h-[420px]">
         <img
           src={heroUrl}
           alt="Scenic travel destination"
@@ -18,7 +18,7 @@ export default function Hero() {
         />
       </div>
 
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-black/10" />
+      <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-black/10" />
       <div className="absolute inset-0 flex items-end">
         <div className="p-5 sm:p-8 lg:p-10 max-w-3xl">
           <h1 className="text-white text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight">
