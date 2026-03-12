@@ -1,24 +1,25 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import VenueCard from "../components/VenueCard.jsx";
 import { fetchVenues } from "../api/apiClient.js";
 
 /**
  * Page component that displays a searchable, paginated list of venues.
+ * @param {object} props
+ * @param {string} props.searchTerm - Search query controlled by the parent.
+ * @param {function} props.onSearchChange - Callback to update the search query.
  * @returns {JSX.Element} The venues list page with search and load more functionality.
  */
-function VenuesList() {
+function VenuesList({ searchTerm = "" }) {
   const [venues, setVenues] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
 
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
-  const searchInputRef = useRef(null);
   const limit = 24;
 
   useEffect(() => {
@@ -64,9 +65,6 @@ function VenuesList() {
         setHasMore(false);
       } finally {
         setLoading(false);
-        requestAnimationFrame(() => {
-          searchInputRef.current?.focus();
-        });
       }
     }
 
@@ -107,34 +105,12 @@ function VenuesList() {
       setErrorMessage(error.message || "Something went wrong");
     } finally {
       setLoadingMore(false);
-
-      requestAnimationFrame(() => {
-        searchInputRef.current?.focus();
-      });
     }
   }
 
   return (
     <div>
       <h1 className="text-2xl font-bold mb-2"> Venues </h1>
-
-      <div className="mb-4">
-        <label
-          htmlFor="venueSearch"
-          className="block text-sm font-medium text-[#5A3A2E] mb-1"
-        >
-          Search venues by name
-        </label>
-        <input
-          id="venueSearch"
-          ref={searchInputRef}
-          type="text"
-          placeholder="Search for a venue here"
-          className="w-full max-w-md rounded border border-[#A7CDBD] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#C65A3A]"
-          value={searchTerm}
-          onChange={(event) => setSearchTerm(event.target.value)}
-        />
-      </div>
 
       {errorMessage && (
         <p className="text-xs text-[#5A3A2E] mt-1"> {errorMessage} </p>
