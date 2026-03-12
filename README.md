@@ -7,7 +7,7 @@ The project demonstrates use of React, API communication, routing and responsive
 
 ## Screenshot
 
-![Holidaze Homepage](./src/assets/screenshot.png)
+![Holidaze Homepage](./src/assets/holidazehome.png)
 
 ## Description
 
@@ -90,6 +90,7 @@ Email: hanne_stray@hotmail.com
 Following feedback received on Project Exam 2, the following improvements were made:
 
 ### Bug Fixes & Code Quality
+
 - Removed all `console.log` and `console.error` statements across the codebase
 - Fixed accessibility issues by adding `htmlFor` and matching `id` attributes to all label/input pairs
 - Replaced `let` with `const` for variables that are never reassigned
@@ -97,7 +98,9 @@ Following feedback received on Project Exam 2, the following improvements were m
 - Fixed inconsistent return statements in async functions
 
 ### Documentation
+
 - Added JSDoc comments to all functions and components across 19 source files
 
 ### Bonus Fix
+
 - Corrected a typo in `Navbar.jsx` where `JusName` was used instead of `className`
