@@ -104,13 +104,13 @@ function Venue() {
   return (
     <div className="max-w-4xl mx-auto p-4">
       <div className="mb-4">
-        <Link to="/" className="text-sm text-sky-700 hover:underline">
+        <Link to="/" className="text-sm text-[#869D7A] hover:underline">
           ← Back to all Venues
         </Link>
       </div>
 
       <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-        <div className="h-64 w-full overflow-hidden bg-slate-200">
+        <div className="h-64 w-full overflow-hidden bg-[#E8D3C5]">
           {imgUrl ? (
             <img
               src={imgUrl}
@@ -118,30 +118,30 @@ function Venue() {
               className="h-full w-full object-cover"
             />
           ) : (
-            <div className="h-full w-full flex items-center justify-center text-sm text-slate-600">
+            <div className="h-full w-full flex items-center justify-center text-sm text-[#5A3A2E]">
               No image
             </div>
           )}
         </div>
 
         <div className="p-4 space-y-2">
-          <h1 className="text-2xl font-bold text-slate-900"> {venue.name}</h1>
+          <h1 className="text-2xl font-bold text-[#5A3A2E]"> {venue.name}</h1>
 
           {venue.location?.country && (
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-[#5A3A2E]">
               {venue.location.city ? `${venue.location.city}, ` : ""}
               {venue.location.country}
             </p>
           )}
 
           {venue.description && (
-            <p className="text-sm text-slate-700 mt-2">{venue.description}</p>
+            <p className="text-sm text-[#5A3A2E] mt-2">{venue.description}</p>
           )}
 
           {typeof venue.price === "number" && (
             <p className="font-semibold mt-3">
               Price per night:
-              <span className="text-sky-700">{venue.price}</span> NOK
+              <span className="font-bold text-black">{venue.price}</span> NOK
             </p>
           )}
         </div>
@@ -149,7 +149,7 @@ function Venue() {
 
       <div className="bg-white rounded-lg shadow-sm p-4">
         <h2 className="text-lg font-semibold mb-2">Availability</h2>
-        <p className="text-xs text-slate-500 mb-2">
+        <p className="text-xs text-[#5A3A2E] mb-2">
           Booked dates are shown in red. Other days are free to book
         </p>
         <VenueCalendar bookings={venue.bookings || []} />
@@ -162,7 +162,7 @@ function Venue() {
           </h2>
 
           {!venue.bookings || venue.bookings.length === 0 ? (
-            <p className="text-sm text-slate-600"> No bookings yet </p>
+            <p className="text-sm text-[#5A3A2E]"> No bookings yet </p>
           ) : (
             <ul className="space-y-2">
               {venue.bookings
@@ -174,9 +174,9 @@ function Venue() {
                       {" "}
                       {formatDate(b.dateFrom)} → {formatDate(b.dateTo)}{" "}
                     </p>
-                    <p className="text-sm text-slate-600">Guests: {b.guests}</p>
+                    <p className="text-sm text-[#5A3A2E]">Guests: {b.guests}</p>
                     {b.customer?.name && (
-                      <p className="text-sm text-slate-600">
+                      <p className="text-sm text-[#5A3A2E]">
                         Customer: {b.customer.name}
                       </p>
                     )}
@@ -229,7 +229,7 @@ function Venue() {
         </div>
 
         <button
-          className="mt-3 w-full rounded bg-sky-700 text-white py-2 hover:bg-sky-800"
+          className="mt-3 w-full rounded bg-[#C65A3A] text-white py-2 hover:bg-[#9C2F1F]"
           onClick={() => {
             setBookingError("");
 

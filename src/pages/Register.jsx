@@ -100,7 +100,7 @@ function Register() {
     <div className="max-w-md mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4"> Register </h1>
 
-      <p className="text-sm text-slate-600 mb-4">
+      <p className="text-sm text-[#5A3A2E] mb-4">
         {" "}
         Create a new account. You must use your {""}{" "}
         <span className="font-mono">stud.noroff.no</span> mail{" "}
@@ -110,14 +110,14 @@ function Register() {
         <div>
           <label
             htmlFor="registerName"
-            className="block text-sm font-medium text-slate-700 mb-1"
+            className="block text-sm font-medium text-[#5A3A2E] mb-1"
           >
             Name
           </label>
           <input
             id="registerName"
             type="text"
-            className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+            className="w-full rounded border border-[#A7CDBD] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#C65A3A]"
             placeholder="your name"
             value={name}
             onChange={(event) => setName(event.target.value)}
@@ -127,14 +127,14 @@ function Register() {
         <div>
           <label
             htmlFor="registerEmail"
-            className="block text-sm font-medium text-slate-700 mb-1"
+            className="block text-sm font-medium text-[#5A3A2E] mb-1"
           >
             Email
           </label>
           <input
             id="registerEmail"
             type="email"
-            className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+            className="w-full rounded border border-[#A7CDBD] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#C65A3A]"
             placeholder="yourname@stud.noroff.no"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
@@ -144,14 +144,14 @@ function Register() {
         <div>
           <label
             htmlFor="registerPassword"
-            className="block text-sm font-medium text-slate-700 mb-1"
+            className="block text-sm font-medium text-[#5A3A2E] mb-1"
           >
             Password
           </label>
           <input
             id="registerPassword"
             type="password"
-            className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+            className="w-full rounded border border-[#A7CDBD] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#C65A3A]"
             placeholder="Choose a password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
@@ -174,7 +174,7 @@ function Register() {
             onChange={(event) => setIsVenueManager(event.target.checked)}
             className="h-4 w-4"
           />
-          <label htmlFor="venueManager" className="text-sm text-slate-700">
+          <label htmlFor="venueManager" className="text-sm text-[#5A3A2E]">
             Register as venue manager
           </label>
         </div>
@@ -182,7 +182,7 @@ function Register() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full rounded bg-sky-600 text-white py-2 text-sm font-semibold hover:bg-sky-700 disabled:opacity-60"
+          className="w-full rounded bg-[#C65A3A] text-white py-2 text-sm font-semibold hover:bg-[#9C2F1F] disabled:opacity-60"
         >
           {isSubmitting ? "Registering..." : "Register"}
         </button>

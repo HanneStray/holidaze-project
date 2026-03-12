@@ -4,7 +4,7 @@
  */
 function Footer() {
   return (
-    <footer className="bg-white mt-auto border-t text-center py-4 text-sm text-gray-500">
+    <footer className="bg-[#A7CDBD] mt-auto border-t text-center py-4 text-sm text-[#5A3A2E]">
       &copy; 2025 Semester Project 2
     </footer>
   );

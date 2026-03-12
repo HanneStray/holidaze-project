@@ -103,21 +103,21 @@ function BookingConfirm() {
 
       <div className="bg-white rounded-lg shadow-sm p-4 space-y-2">
         <p className="font-semibold">{venue.name}</p>
-        <p className="text-sm text-slate-600">
+        <p className="text-sm text-[#5A3A2E]">
           {dateFrom} → {dateTo} ({nights} nights)
         </p>
         <p className="text-sm">Guests: {guests}</p>
 
         {total !== null && (
           <p className="font-semibold">
-            Total: <span className="text-sky-700">{total}</span> NOK
+            Total: <span className="text-[#FDD969]">{total}</span> NOK
           </p>
         )}
 
         <button
           onClick={handleConfirm}
           disabled={submitting}
-          className="mt-3 w-full rounded bg-sky-700 text-white py-2 hover:bg-sky-800 disabled:opacity-60"
+          className="mt-3 w-full rounded bg-[#C65A3A] text-white py-2 hover:bg-[#9C2F1F] disabled:opacity-60"
         >
           {submitting ? "Booking..." : "Confirm booking"}
         </button>

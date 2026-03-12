@@ -71,30 +71,30 @@ function Navbar() {
   const initial = (displayName?.[0] || "?").toUpperCase();
 
   return (
-    <header className="bg-white shadow-sm mb-4">
+    <header className="bg-[#A7CDBD] shadow-sm mb-4">
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
         <Link
           to="/"
           className="text-xl font-semibold tracking-tight hover:opacity-80"
-          style={{ color: "#869D7A" }}
+          style={{ color: "#5A3A2E" }}
         >
           Holidaze{" "}
         </Link>
 
         <div className="space-x-4 text-sm flex items-center">
-          <Link to="/" className="text-slate-700 hover:text-sky-700">
+          <Link to="/" className="text-[#5A3A2E] hover:text-[#869D7A]">
             Home
           </Link>
 
           {!user ? (
-            <Link to="/login" className="text-slate-700 hover:text-sky-700">
+            <Link to="/login" className="text-[#5A3A2E] hover:text-[#869D7A]">
               Login
             </Link>
           ) : (
             <>
               <Link
                 to="/profile"
-                className="flex items-center gap-2 rounded-full hover:bg-slate-50 px-2 py-1"
+                className="flex items-center gap-2 rounded-full hover:bg-[#8eb8a8] px-2 py-1"
                 title="Go to profile"
               >
                 {user?.avatar ? (
@@ -104,11 +104,11 @@ function Navbar() {
                     className="h-8 w-8 rounded-full object-cover border"
                   />
                 ) : (
-                  <div className="h-8 w-8 rounded-full border bg-slate-100 flex items-center justify-center text-xs font-semibold text-slate-700">
+                  <div className="h-8 w-8 rounded-full border bg-[#DFF8EB] flex items-center justify-center text-xs font-semibold text-[#5A3A2E]">
                     {initial}
                   </div>
                 )}
-                <span className="hidden sm:block text-slate-700">
+                <span className="hidden sm:block text-[#5A3A2E]">
                   {" "}
                   Hi,{" "}
                   <span className="font-medium">{user?.name || "there"}</span>
@@ -118,7 +118,7 @@ function Navbar() {
               <button
                 type="button"
                 onClick={handleLogout}
-                className="rounded border border-slate-300 px-3 py-1 text-xs text-slate-700 hover:bg-slate-100"
+                className="rounded border border-[#5A3A2E]/30 px-3 py-1 text-xs text-[#5A3A2E] hover:bg-[#8eb8a8]"
               >
                 Logout
               </button>

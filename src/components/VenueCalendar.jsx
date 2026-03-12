@@ -129,9 +129,9 @@ export default function VenueCalendar({ bookings = [] }) {
   }
 
   const btnBase =
-    "rounded border px-2 py-1 text-xs bg-white shadow-sm " +
-    "cursor-pointer hover:bg-slate-50 hover:shadow hover:-translate-y-[1px] " +
-    "active:bg-slate-100 active:scale-[0.97] " +
+    "rounded border border-[#A7CDBD] px-2 py-1 text-xs bg-white shadow-sm " +
+    "cursor-pointer hover:bg-[#DFF8EB] hover:shadow hover:-translate-y-[1px] " +
+    "active:bg-[#E8D3C5] active:scale-[0.97] " +
     "transition-all duration-150";
 
   const btnDisabled =
@@ -142,7 +142,7 @@ export default function VenueCalendar({ bookings = [] }) {
       <div className="flex items-baseline justify-between mb-3">
         <div>
           <p className="font-semibold text-sm">{monthLabel}</p>
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-[#5A3A2E]">
             Calendar - see booked and available days
           </p>
         </div>

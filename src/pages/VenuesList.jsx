@@ -121,7 +121,7 @@ function VenuesList() {
       <div className="mb-4">
         <label
           htmlFor="venueSearch"
-          className="block text-sm font-medium text-slate-700 mb-1"
+          className="block text-sm font-medium text-[#5A3A2E] mb-1"
         >
           Search venues by name
         </label>
@@ -130,14 +130,14 @@ function VenuesList() {
           ref={searchInputRef}
           type="text"
           placeholder="Search for a venue here"
-          className="w-full max-w-md rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+          className="w-full max-w-md rounded border border-[#A7CDBD] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#C65A3A]"
           value={searchTerm}
           onChange={(event) => setSearchTerm(event.target.value)}
         />
       </div>
 
       {errorMessage && (
-        <p className="text-xs text-slate-500 mt-1"> {errorMessage} </p>
+        <p className="text-xs text-[#5A3A2E] mt-1"> {errorMessage} </p>
       )}
 
       {loading ? (
@@ -158,7 +158,7 @@ function VenuesList() {
                 type="button"
                 onClick={handleLoadMore}
                 disabled={loadingMore}
-                className="rounded border border-slate-300 bg-white px-4 py-2 text-sm hover:bg-slate-50 disabled:opacity-60"
+                className="rounded border border-[#A7CDBD] bg-white px-4 py-2 text-sm hover:bg-[#DFF8EB] disabled:opacity-60"
               >
                 {loadingMore ? "Loading..." : "Load More"}
               </button>
@@ -166,7 +166,7 @@ function VenuesList() {
           )}
 
           {!hasMore && venues.length > 0 && (
-            <p className="mt-6 text-center text-xs text-slate-500">
+            <p className="mt-6 text-center text-xs text-[#5A3A2E]">
               No more venues to load
             </p>
           )}

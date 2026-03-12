@@ -99,7 +99,7 @@ function Login() {
   return (
     <div className="max-w-md mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4"> Login </h1>
-      <p className="text-sm text-slate-600 mb-4">
+      <p className="text-sm text-[#5A3A2E] mb-4">
         Email (must be a stud.noroff.no e-mail)
       </p>
 
@@ -107,14 +107,14 @@ function Login() {
         <div>
           <label
             htmlFor="loginEmail"
-            className="block text-sm font-medium text-slate-700 mb-1"
+            className="block text-sm font-medium text-[#5A3A2E] mb-1"
           >
             Email
           </label>
           <input
             id="loginEmail"
             type="email"
-            className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+            className="w-full rounded border border-[#A7CDBD] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#C65A3A]"
             placeholder="yourname@stud.noroff.no"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
@@ -124,14 +124,14 @@ function Login() {
         <div>
           <label
             htmlFor="loginPassword"
-            className="block text-sm font-medium text-slate-700 mb-1"
+            className="block text-sm font-medium text-[#5A3A2E] mb-1"
           >
             Password
           </label>
           <input
             id="loginPassword"
             type="password"
-            className="w-full rounded border border-slate-300 px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+            className="w-full rounded border border-[#A7CDBD] px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#C65A3A]"
             placeholder="Your password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
@@ -143,15 +143,15 @@ function Login() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full rounded bg-sky-600 text-white py-2 text-sm font-semibold hover:bg-sky-700 disabled:opacity-60"
+          className="w-full rounded bg-[#C65A3A] text-white py-2 text-sm font-semibold hover:bg-[#9C2F1F] disabled:opacity-60"
         >
           {isSubmitting ? "Logging in..." : "Login"}
         </button>
       </form>
 
-      <p className="text-xs text-slate-600 mt-4">
+      <p className="text-xs text-[#5A3A2E] mt-4">
         Don&apos;t have an account yet {""}
-        <Link to="/register" className="text-sky-700 hover:underline">
+        <Link to="/register" className="text-[#869D7A] hover:underline">
           Register here
         </Link>
       </p>

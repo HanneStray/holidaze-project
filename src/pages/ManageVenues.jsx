@@ -55,7 +55,7 @@ function ManageVenues() {
 
         <Link
           to="/venues/create"
-          className="rounded bg-sky-600 px-3 py-2 text-sm font-semibold text-white hover:bg-sky-700"
+          className="rounded bg-[#C65A3A] px-3 py-2 text-sm font-semibold text-white hover:bg-[#9C2F1F]"
         >
           {" "}
           Create venue
@@ -63,12 +63,12 @@ function ManageVenues() {
       </div>
 
       {isLoading && (
-        <p className="text-sm text-slate-600"> Loading your venues </p>
+        <p className="text-sm text-[#5A3A2E]"> Loading your venues </p>
       )}
       {errorMessage && <p className="text-sm text-red-600">{errorMessage}</p>}
 
       {!isLoading && !errorMessage && venues.length === 0 && (
-        <p className="text-sm text-slate-600">
+        <p className="text-sm text-[#5A3A2E]">
           {" "}
           You have not created any venues yet
         </p>
@@ -78,7 +78,7 @@ function ManageVenues() {
         {venues.map((venue) => (
           <li
             key={venue.id}
-            className="rounded border border-slate-200 bg-white p-4"
+            className="rounded border border-[#A7CDBD] bg-white p-4"
           >
             {venue.media?.[0]?.url && (
               <img
@@ -88,15 +88,15 @@ function ManageVenues() {
               />
             )}
 
-            <h2 className="font-semibold text-slate-800">{venue.name}</h2>
-            <p className="text-sm text-slate-600">
+            <h2 className="font-semibold text-[#5A3A2E]">{venue.name}</h2>
+            <p className="text-sm text-[#5A3A2E]">
               Price: {venue.price} • Guests: {venue.maxGuests}
             </p>
 
             <div className="mt-3 flex gap-2">
               <Link
                 to={`/venues/edit/${venue.id}`}
-                className="rounded border border-slate-300 px-3 py-1 text-xs hover:bg-slate-50"
+                className="rounded border border-[#A7CDBD] px-3 py-1 text-xs hover:bg-[#DFF8EB]"
               >
                 Edit
               </Link>
@@ -111,7 +111,7 @@ function ManageVenues() {
 
               <Link
                 to={`/venues/${venue.id}`}
-                className="rounded border border-slate-300 px-3 py-1 text-xs hover:bg-slate-50"
+                className="rounded border border-[#A7CDBD] px-3 py-1 text-xs hover:bg-[#DFF8EB]"
               >
                 View (bookings)
               </Link>
@@ -123,7 +123,7 @@ function ManageVenues() {
       <button
         type="button"
         onClick={load}
-        className="rounded border border-slate-300 px-3 py-1 text-xs hover:bg-slate-50"
+        className="rounded border border-[#A7CDBD] px-3 py-1 text-xs hover:bg-[#DFF8EB]"
       >
         Refresh list
       </button>

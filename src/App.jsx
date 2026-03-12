@@ -24,7 +24,7 @@ import RequireVenueManager from "./components/RequireVenueManager.jsx";
  */
 function App() {
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col">
+    <div className="min-h-screen bg-[#DFF8EB] flex flex-col">
       <Navbar />
 
       <main className="mx-auto w-full max-w-5xl px-4 py-6 flex-1">

@@ -82,8 +82,8 @@ function Bookings() {
     return (
       <div className="p-4">
         <h1 className="text-2xl font-bold mb-2"> My bookings </h1>
-        <p className="text-slate-600">You have no upcoming bookings</p>
-        <Link to="/" className="inline-block mt-3 text-sky-700 hover:underline">
+        <p className="text-[#5A3A2E]">You have no upcoming bookings</p>
+        <Link to="/" className="inline-block mt-3 text-[#869D7A] hover:underline">
           {" "}
           Browse venues
         </Link>
@@ -110,7 +110,7 @@ function Bookings() {
                   {venue?.name || "Venue"}
                 </h2>
 
-                <p className="text-sm text-slate-600">
+                <p className="text-sm text-[#5A3A2E]">
                   {formatDate(booking.dateFrom)} → {formatDate(booking.dateTo)}
                 </p>
 
@@ -119,7 +119,7 @@ function Bookings() {
                 {venue?.id && (
                   <Link
                     to={`/venues/${venue.id}`}
-                    className="inline-block mt-2 text-sm text-sky-700 hover:underline"
+                    className="inline-block mt-2 text-sm text-[#869D7A] hover:underline"
                   >
                     View venue
                   </Link>

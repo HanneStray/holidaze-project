@@ -85,14 +85,14 @@ function CreateVenue() {
         <div>
           <label
             htmlFor="venueName"
-            className="block text-sm font-medium text-slate-700 mb-1"
+            className="block text-sm font-medium text-[#5A3A2E] mb-1"
           >
             Name
           </label>
           <input
             id="venueName"
             type="text"
-            className="w-full border rounded border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+            className="w-full border rounded border-[#A7CDBD] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#C65A3A]"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Venue name"
@@ -102,13 +102,13 @@ function CreateVenue() {
         <div>
           <label
             htmlFor="venueDescription"
-            className="block text-sm font-medium text-slate-700 mb-1"
+            className="block text-sm font-medium text-[#5A3A2E] mb-1"
           >
             Description
           </label>
           <textarea
             id="venueDescription"
-            className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+            className="w-full rounded border border-[#A7CDBD] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#C65A3A]"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Describe your venue"
@@ -120,14 +120,14 @@ function CreateVenue() {
           <div>
             <label
               htmlFor="venuePrice"
-              className="block text-sm font-medium text-slate-700 mb-1"
+              className="block text-sm font-medium text-[#5A3A2E] mb-1"
             >
               Price per night
             </label>
             <input
               id="venuePrice"
               type="number"
-              className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+              className="w-full rounded border border-[#A7CDBD] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#C65A3A]"
               value={price}
               onChange={(e) => setPrice(e.target.value)}
               min="1"
@@ -137,14 +137,14 @@ function CreateVenue() {
           <div>
             <label
               htmlFor="venueMaxGuests"
-              className="block text-sm font-medium text-slate-700 mb-1"
+              className="block text-sm font-medium text-[#5A3A2E] mb-1"
             >
               Max Guests
             </label>
             <input
               id="venueMaxGuests"
               type="number"
-              className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+              className="w-full rounded border border-[#A7CDBD] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#C65A3A]"
               value={maxGuests}
               onChange={(e) => setMaxGuests(e.target.value)}
               min="1"
@@ -152,13 +152,13 @@ function CreateVenue() {
           </div>
         </div>
 
-        <div className="rounded border border-slate-200 bg-white p-4">
-          <h2 className="font-semibold text-slate-800 mb-2"> Photos </h2>
+        <div className="rounded border border-[#A7CDBD] bg-white p-4">
+          <h2 className="font-semibold text-[#5A3A2E] mb-2"> Photos </h2>
           <div className="space-y-3">
             <div>
               <label
                 htmlFor="venueMediaUrl"
-                className="block text-sm font-medium text-slate-700 mb-1"
+                className="block text-sm font-medium text-[#5A3A2E] mb-1"
               >
                 Image URL
               </label>
@@ -166,7 +166,7 @@ function CreateVenue() {
                 id="venueMediaUrl"
                 type="url"
                 required
-                className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                className="w-full rounded border border-[#A7CDBD] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#C65A3A]"
                 value={mediaUrl}
                 onChange={(e) => setMediaUrl(e.target.value)}
                 placeholder="https://..."
@@ -176,19 +176,19 @@ function CreateVenue() {
             <div>
               <label
                 htmlFor="venueMediaAlt"
-                className="block text-sm font-medium text-slate-700 mb-1"
+                className="block text-sm font-medium text-[#5A3A2E] mb-1"
               >
                 Alt text
               </label>
               <input
                 id="venueMediaAlt"
                 type="text"
-                className="w-full rounded border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                className="w-full rounded border border-[#A7CDBD] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#C65A3A]"
                 value={mediaAlt}
                 onChange={(e) => setMediaAlt(e.target.value)}
                 placeholder="Short description of the image"
               />
-              <p className="text-xs text-slate-500 mb-1">
+              <p className="text-xs text-[#5A3A2E] mb-1">
                 {" "}
                 If you leave this empty, we will use the venue name{" "}
               </p>
@@ -202,14 +202,14 @@ function CreateVenue() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="rounded bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 disabled:opacity-60"
+            className="rounded bg-[#C65A3A] px-4 py-2 text-sm font-semibold text-white hover:bg-[#9C2F1F] disabled:opacity-60"
           >
             {isSubmitting ? "Creating..." : "create venue"}
           </button>
           <button
             type="button"
             onClick={() => navigate("/venues/manage")}
-            className="rounded border border-slate-300 px-4 py-2 text-sm hover:bg-slate-50"
+            className="rounded border border-[#A7CDBD] px-4 py-2 text-sm hover:bg-[#f0ebe8]"
           >
             Cancel
           </button>
