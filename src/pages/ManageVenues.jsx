@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchMyVenues, deleteVenue } from "../api/apiClient";
+import Toast from "../components/Toast.jsx";
 
 /**
  * Page component for venue managers to view, edit, and delete their venues.
@@ -10,6 +11,7 @@ function ManageVenues() {
   const [venues, setVenues] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const [toast, setToast] = useState("");
 
   /**
    * Fetches the current user's venues from the API and updates state.
@@ -43,6 +45,7 @@ function ManageVenues() {
     try {
       await deleteVenue(id);
       setVenues((prev) => prev.filter((v) => v.id !== id));
+      setToast("Venue deleted");
     } catch (error) {
       setErrorMessage(error.message || "Could not delete venue");
     }
@@ -127,6 +130,8 @@ function ManageVenues() {
       >
         Refresh list
       </button>
+
+      <Toast message={toast} onClose={() => setToast("")} />
     </div>
   );
 }

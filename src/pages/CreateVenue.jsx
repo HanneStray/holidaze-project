@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createVenue } from "../api/apiClient";
+import Toast from "../components/Toast.jsx";
 
 /**
  * Page component for creating a new venue.
@@ -20,6 +21,7 @@ function CreateVenue() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [toast, setToast] = useState("");
 
   /**
    * Handles form submission for creating a new venue.
@@ -69,7 +71,8 @@ function CreateVenue() {
 
     try {
       await createVenue(venueData);
-      navigate("/venues/manage");
+      setToast("Venue created!");
+      setTimeout(() => navigate("/venues/manage"), 1500);
     } catch (error) {
       setErrorMessage(error.message || "Something went wrong");
     } finally {
@@ -215,6 +218,8 @@ function CreateVenue() {
           </button>
         </div>
       </form>
+
+      <Toast message={toast} onClose={() => setToast("")} />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { createBooking, fetchVenueById } from "../api/apiClient";
+import Toast from "../components/Toast.jsx";
 
 /**
  * Booking confirmation page component.
@@ -20,6 +21,7 @@ function BookingConfirm() {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [toast, setToast] = useState("");
 
   const nights = useMemo(() => {
     if (!dateFrom || !dateTo) return 0;
@@ -82,7 +84,8 @@ function BookingConfirm() {
         guests,
       });
 
-      navigate("/bookings");
+      setToast("Booking confirmed!");
+      setTimeout(() => navigate("/bookings"), 1500);
     } catch (err) {
       setError(err.message || "could not create booking");
     } finally {
@@ -98,6 +101,7 @@ function BookingConfirm() {
   const total = Number.isFinite(price) ? price * nights : null;
 
   return (
+    <>
     <div className="max-w-3xl mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4"> Confirm booking </h1>
 
@@ -130,6 +134,9 @@ function BookingConfirm() {
         </button>
       </div>
     </div>
+
+    <Toast message={toast} onClose={() => setToast("")} />
+    </>
   );
 }
 

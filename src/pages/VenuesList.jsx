@@ -117,14 +117,30 @@ function VenuesList({ searchTerm = "" }) {
       )}
 
       {loading ? (
-        <p className="text-sm text-red-600 mb-3"> Loading venues...</p>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div
+              key={i}
+              className="bg-[#E8D3C5] rounded-lg shadow-sm overflow-hidden animate-pulse"
+            >
+              <div className="h-40 w-full bg-[#A7CDBD]/40" />
+              <div className="p-3 space-y-2">
+                <div className="h-4 w-3/4 rounded bg-[#A7CDBD]/40" />
+                <div className="h-3 w-1/2 rounded bg-[#A7CDBD]/40" />
+                <div className="h-3 w-1/3 rounded bg-[#A7CDBD]/40 mt-2" />
+              </div>
+            </div>
+          ))}
+        </div>
       ) : venues.length === 0 ? (
         <p> No venues found. Try again</p>
       ) : (
         <>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {venues.map((venue) => (
-              <VenueCard key={venue.id} venue={venue} />
+              <div key={venue.id} className="animate-fadeIn">
+                <VenueCard venue={venue} />
+              </div>
             ))}
           </div>
 

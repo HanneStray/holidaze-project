@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchMyBookings, updateMyAvatar } from "../api/apiClient";
+import Toast from "../components/Toast.jsx";
 
 /**
  * Checks whether an error is an AbortError from a cancelled fetch.
@@ -66,6 +67,7 @@ export default function Profile() {
   const [avatarUrl, setAvatarUrl] = useState(user?.avatar || "");
   const [avatarStatus, setAvatarStatus] = useState("");
   const [savingAvatar, setSavingAvatar] = useState(false);
+  const [toast, setToast] = useState("");
 
   useEffect(() => {
     /**
@@ -158,7 +160,8 @@ export default function Profile() {
       localStorage.setItem("holidazeUser", JSON.stringify(next));
       window.dispatchEvent(new Event("authChanged"));
 
-      setAvatarStatus("Avatar updated");
+      setAvatarStatus("");
+      setToast("Avatar updated!");
     } catch (err) {
       setAvatarStatus(err?.message || "Could not update avatar");
     } finally {
@@ -246,7 +249,7 @@ export default function Profile() {
                 </button>
 
                 {avatarStatus && (
-                  <p className="text-sm text-[#5A3A2E]">{avatarStatus}</p>
+                  <p className="text-sm text-red-600">{avatarStatus}</p>
                 )}
               </div>
             </form>
@@ -314,6 +317,8 @@ export default function Profile() {
           )}
         </div>
       )}
+
+      <Toast message={toast} onClose={() => setToast("")} />
     </div>
   );
 }

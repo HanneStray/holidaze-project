@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchVenueById, updateVenue } from "../api/apiClient.js";
+import Toast from "../components/Toast.jsx";
 
 /**
  * Page component for editing an existing venue.
@@ -14,6 +15,7 @@ function EditVenue() {
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [toast, setToast] = useState("");
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -98,7 +100,8 @@ function EditVenue() {
 
     try {
       await updateVenue(id, venueData);
-      navigate("/venues/manage");
+      setToast("Venue saved!");
+      setTimeout(() => navigate("/venues/manage"), 1500);
     } catch (error) {
       setErrorMessage(error.message || "Something went wrong");
     } finally {
@@ -252,6 +255,8 @@ function EditVenue() {
           </button>
         </div>
       </form>
+
+      <Toast message={toast} onClose={() => setToast("")} />
     </div>
   );
 }
