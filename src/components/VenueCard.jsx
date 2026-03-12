@@ -21,8 +21,30 @@ function VenueCard({ venue }) {
         <img src={imgUrl} alt={imgAlt} className="h-full w-full object-cover" />
       </div>
 
-      <div className="p-3 flex-1 flex flex-col">
+      <div className="p-3 flex-1 flex flex-col gap-1">
         <h2 className="font-semibold text-[#5A3A2E] truncate">{venue.name}</h2>
+
+        {(venue.location?.city || venue.location?.country) && (
+          <p className="text-xs text-[#5A3A2E]/70 truncate">
+            {[venue.location.city, venue.location.country].filter(Boolean).join(", ")}
+          </p>
+        )}
+
+        <div className="mt-auto pt-2 flex items-center justify-between text-xs text-[#5A3A2E]">
+          <div className="flex items-center gap-2">
+            {typeof venue.price === "number" && (
+              <span className="font-bold">{venue.price} NOK<span className="font-normal"> / night</span></span>
+            )}
+          </div>
+          <div className="flex items-center gap-2">
+            {typeof venue.rating === "number" && venue.rating > 0 && (
+              <span>⭐ {venue.rating.toFixed(1)}</span>
+            )}
+            {typeof venue.maxGuests === "number" && (
+              <span>👥 {venue.maxGuests}</span>
+            )}
+          </div>
+        </div>
       </div>
     </a>
   );
